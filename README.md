@@ -6,13 +6,6 @@ The report has two parts:
 
 - **Sports**: season overview, roster, health and availability, coaching staff and trades, league context.
 - **Business**: MSG Sports finances, payroll vs the salary cap and aprons, value for money per player, arena attendance and partners.
-
-![Home](docs/images/home.png)
-
-![Roster](docs/images/roster.png)
-
-![Health & Availability](docs/images/health.png)
-
 There is also a hidden player profile page you reach by drill through from the roster.
 
 ## Model
@@ -56,7 +49,7 @@ Data collected in October 2026. Currency USD.
 
 ## How to open
 
-1. Clone the repo and open `Dashboard Knicks.pbip` in Power BI Desktop.
+1. Clone the repo and open `knicks-front-office/Dashboard Knicks.pbip` in Power BI Desktop.
 2. In Transform data > Manage parameters, point `CsvFolder` to the `knicks_csv` folder on your machine.
 3. Refresh.
 

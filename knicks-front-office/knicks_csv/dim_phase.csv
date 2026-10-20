@@ -1,0 +1,5 @@
+﻿phase_id,phase_name,phase_order
+REG,Regular season,1
+PO,Playoffs,4
+PLAYIN,Play-in,3
+CUP_FINAL,NBA Cup final,2

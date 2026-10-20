@@ -1,0 +1,54 @@
+table fact_coaching_staff
+	lineageTag: ae1707bb-2c70-47f3-b785-800035194dae
+
+	column season_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ae9330a2-891a-43df-81e8-5b24000d67ff
+		summarizeBy: none
+		sourceColumn: season_id
+
+		annotation SummarizationSetBy = User
+
+	column team_id
+		dataType: string
+		isHidden
+		lineageTag: b0fa557b-9739-49b2-8207-547a0a776b93
+		summarizeBy: none
+		sourceColumn: team_id
+
+		annotation SummarizationSetBy = User
+
+	column coach_name
+		dataType: string
+		lineageTag: 2f600f87-5b1b-4ff1-9070-4ba1cbd7c8a2
+		summarizeBy: none
+		sourceColumn: coach_name
+
+		annotation SummarizationSetBy = User
+
+	column role
+		dataType: string
+		lineageTag: 582b47fd-6981-4305-b952-2b606278ead5
+		summarizeBy: none
+		sourceColumn: role
+
+		annotation SummarizationSetBy = User
+
+	partition fact_coaching_staff = m
+		mode: import
+		queryGroup: Sports
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "fact_coaching_staff.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    SelectedColumns = Table.SelectColumns(PromotedHeaders, {"season_id", "team_id", "coach_name", "role"}),
+				    ChangedTypes = Table.TransformColumnTypes(SelectedColumns, {{"season_id", Int64.Type}, {"team_id", type text}, {"coach_name", type text}, {"role", type text}}, "en-US")
+				in
+				    ChangedTypes
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

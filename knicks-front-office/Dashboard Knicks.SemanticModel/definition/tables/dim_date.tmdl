@@ -1,0 +1,48 @@
+table dim_date
+	lineageTag: ad7a03ee-f00b-4a6c-97ad-746558b862c4
+	dataCategory: Time
+
+	column date_id
+		dataType: dateTime
+		isKey
+		formatString: Short Date
+		lineageTag: 3816d2a5-c3d3-478b-aeb9-0e815a2582bc
+		summarizeBy: none
+		sourceColumn: date_id
+
+		annotation SummarizationSetBy = User
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column year_month
+		dataType: string
+		lineageTag: c01fe2a2-5000-4bfc-8850-f6be80e09b66
+		summarizeBy: none
+		sourceColumn: year_month
+
+		annotation SummarizationSetBy = User
+
+	column 'Month Label' = FORMAT ( dim_date[date_id], "mmm yy" )
+		dataType: string
+		lineageTag: 6dcbc6ea-890f-42f0-bcb7-4d96bd604ad7
+		summarizeBy: none
+		sortByColumn: year_month
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_date = m
+		mode: import
+		queryGroup: Dimensions
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "dim_date.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    SelectedColumns = Table.SelectColumns(PromotedHeaders, {"date_id", "year_month"}),
+				    ChangedTypes = Table.TransformColumnTypes(SelectedColumns, {{"date_id", type date}, {"year_month", type text}}, "en-US")
+				in
+				    ChangedTypes
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

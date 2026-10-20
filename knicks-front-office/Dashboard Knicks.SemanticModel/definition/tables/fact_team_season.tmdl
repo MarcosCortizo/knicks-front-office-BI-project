@@ -1,0 +1,245 @@
+table fact_team_season
+	lineageTag: a3b6e2c6-b601-4841-a37d-ad3f7b7c75f2
+
+	column season_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a1d274eb-bdbf-4f6b-b5a2-358dcc335a84
+		summarizeBy: none
+		sourceColumn: season_id
+
+		annotation SummarizationSetBy = User
+
+	column phase_id
+		dataType: string
+		isHidden
+		lineageTag: a5c4ec32-c271-4b78-8c83-083ee495a289
+		summarizeBy: none
+		sourceColumn: phase_id
+
+		annotation SummarizationSetBy = User
+
+	column team_id
+		dataType: string
+		isHidden
+		lineageTag: cb5ac29d-6459-4ea9-af22-f217093722cb
+		summarizeBy: none
+		sourceColumn: team_id
+
+		annotation SummarizationSetBy = User
+
+	column g
+		dataType: int64
+		formatString: #,0
+		lineageTag: c5a34537-fa27-44cf-af28-0fb3c8ef84e8
+		summarizeBy: sum
+		sourceColumn: g
+
+		annotation SummarizationSetBy = User
+
+	column wins
+		dataType: int64
+		formatString: #,0
+		lineageTag: 296066b9-90a6-445c-be94-3f0fbf2c0e4c
+		summarizeBy: sum
+		sourceColumn: wins
+
+		annotation SummarizationSetBy = User
+
+	column losses
+		dataType: int64
+		formatString: #,0
+		lineageTag: caddaf40-16a5-423c-8ea9-6ee21ba8a0a9
+		summarizeBy: sum
+		sourceColumn: losses
+
+		annotation SummarizationSetBy = User
+
+	column conference_rank
+		dataType: int64
+		formatString: 0
+		lineageTag: 02f4046f-ef6b-4910-bacd-c67e569d8647
+		summarizeBy: none
+		sourceColumn: conference_rank
+
+		annotation SummarizationSetBy = User
+
+	column fg
+		dataType: int64
+		formatString: #,0
+		lineageTag: 5006622f-a6ce-4f56-b0cf-c6bffb12fd29
+		summarizeBy: sum
+		sourceColumn: fg
+
+		annotation SummarizationSetBy = User
+
+	column fga
+		dataType: int64
+		formatString: #,0
+		lineageTag: 22a1196f-824b-466e-b244-5042443cb9f7
+		summarizeBy: sum
+		sourceColumn: fga
+
+		annotation SummarizationSetBy = User
+
+	column fg3
+		dataType: int64
+		formatString: #,0
+		lineageTag: 0d68f8d6-c524-4bad-9fdf-55a70802acac
+		summarizeBy: sum
+		sourceColumn: fg3
+
+		annotation SummarizationSetBy = User
+
+	column fg3a
+		dataType: int64
+		formatString: #,0
+		lineageTag: a2f1495b-49d3-4d43-a8a0-b9964c200cca
+		summarizeBy: sum
+		sourceColumn: fg3a
+
+		annotation SummarizationSetBy = User
+
+	column ft
+		dataType: int64
+		formatString: #,0
+		lineageTag: bd662eb0-f29b-4871-a3c3-6196a99fdab9
+		summarizeBy: sum
+		sourceColumn: ft
+
+		annotation SummarizationSetBy = User
+
+	column fta
+		dataType: int64
+		formatString: #,0
+		lineageTag: ef782e19-05f7-4ad8-baac-f199260ff069
+		summarizeBy: sum
+		sourceColumn: fta
+
+		annotation SummarizationSetBy = User
+
+	column trb
+		dataType: int64
+		formatString: #,0
+		lineageTag: 97faebde-28d2-4f67-bf82-7bcb91b5e625
+		summarizeBy: sum
+		sourceColumn: trb
+
+		annotation SummarizationSetBy = User
+
+	column ast
+		dataType: int64
+		formatString: #,0
+		lineageTag: c1e6ea37-5258-4d00-ae06-5ea41292d67c
+		summarizeBy: sum
+		sourceColumn: ast
+
+		annotation SummarizationSetBy = User
+
+	column stl
+		dataType: int64
+		formatString: #,0
+		lineageTag: d2fb1027-5628-4142-bda0-43e971ee7454
+		summarizeBy: sum
+		sourceColumn: stl
+
+		annotation SummarizationSetBy = User
+
+	column blk
+		dataType: int64
+		formatString: #,0
+		lineageTag: 131b0600-786c-4879-afcf-13e99ae371dc
+		summarizeBy: sum
+		sourceColumn: blk
+
+		annotation SummarizationSetBy = User
+
+	column tov
+		dataType: int64
+		formatString: #,0
+		lineageTag: 2f9ed334-36a3-4eea-863b-dedd8b86d1b6
+		summarizeBy: sum
+		sourceColumn: tov
+
+		annotation SummarizationSetBy = User
+
+	column pts
+		dataType: int64
+		formatString: #,0
+		lineageTag: aadf80b6-5bc8-4478-a79a-a795810e0b4b
+		summarizeBy: sum
+		sourceColumn: pts
+
+		annotation SummarizationSetBy = User
+
+	column opp_pts
+		dataType: int64
+		formatString: #,0
+		lineageTag: bc452bb5-2550-4009-bd21-a9b92c0e4067
+		summarizeBy: sum
+		sourceColumn: opp_pts
+
+		annotation SummarizationSetBy = User
+
+	column off_rtg
+		dataType: double
+		formatString: 0.0
+		lineageTag: 1d20a603-9858-4b59-b5c9-558eacef1215
+		summarizeBy: none
+		sourceColumn: off_rtg
+
+		annotation SummarizationSetBy = User
+
+	column def_rtg
+		dataType: double
+		formatString: 0.0
+		lineageTag: d58de232-3eb9-40d7-a9bb-a4b20cdf5ca1
+		summarizeBy: none
+		sourceColumn: def_rtg
+
+		annotation SummarizationSetBy = User
+
+	column net_rtg
+		dataType: double
+		formatString: 0.0
+		lineageTag: 5d22d6a9-ac4f-4aa4-8346-9794df93b0f0
+		summarizeBy: none
+		sourceColumn: net_rtg
+
+		annotation SummarizationSetBy = User
+
+	column attendance
+		dataType: int64
+		formatString: #,0
+		lineageTag: 4d81f6f6-afe0-4ef8-bc75-22fa73269bc5
+		summarizeBy: sum
+		sourceColumn: attendance
+
+		annotation SummarizationSetBy = User
+
+	column attendance_per_g
+		dataType: int64
+		formatString: #,0
+		lineageTag: 7a9d381c-ce19-40eb-ba4d-11fc74f34d08
+		summarizeBy: none
+		sourceColumn: attendance_per_g
+
+		annotation SummarizationSetBy = User
+
+	partition fact_team_season = m
+		mode: import
+		queryGroup: Sports
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "fact_team_season.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    SelectedColumns = Table.SelectColumns(PromotedHeaders, {"season_id", "phase_id", "team_id", "g", "wins", "losses", "conference_rank", "fg", "fga", "fg3", "fg3a", "ft", "fta", "trb", "ast", "stl", "blk", "tov", "pts", "opp_pts", "off_rtg", "def_rtg", "net_rtg", "attendance", "attendance_per_g"}),
+				    ChangedTypes = Table.TransformColumnTypes(SelectedColumns, {{"season_id", Int64.Type}, {"phase_id", type text}, {"team_id", type text}, {"g", Int64.Type}, {"wins", Int64.Type}, {"losses", Int64.Type}, {"conference_rank", Int64.Type}, {"fg", Int64.Type}, {"fga", Int64.Type}, {"fg3", Int64.Type}, {"fg3a", Int64.Type}, {"ft", Int64.Type}, {"fta", Int64.Type}, {"trb", Int64.Type}, {"ast", Int64.Type}, {"stl", Int64.Type}, {"blk", Int64.Type}, {"tov", Int64.Type}, {"pts", Int64.Type}, {"opp_pts", Int64.Type}, {"off_rtg", type number}, {"def_rtg", type number}, {"net_rtg", type number}, {"attendance", Int64.Type}, {"attendance_per_g", Int64.Type}}, "en-US")
+				in
+				    ChangedTypes
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

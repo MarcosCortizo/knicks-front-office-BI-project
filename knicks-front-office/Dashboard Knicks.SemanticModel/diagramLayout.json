@@ -1,0 +1,371 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 3370.3934781324078,
+            "y": 304.7974524432434
+          },
+          "nodeIndex": "dim_phase",
+          "nodeLineageTag": "53c8377e-3858-4e0a-a77a-ffe7691f08ed",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 26
+        },
+        {
+          "location": {
+            "x": 3623.21590940469,
+            "y": 306.61620486067943
+          },
+          "nodeIndex": "dim_team",
+          "nodeLineageTag": "a27caf89-948e-45f3-944c-28e9d4158c08",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 24
+        },
+        {
+          "location": {
+            "x": 3138.1501742300143,
+            "y": 294.9613868694729
+          },
+          "nodeIndex": "dim_season",
+          "nodeLineageTag": "1f74219f-9540-4b60-bf54-ab74314c61d2",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 25
+        },
+        {
+          "location": {
+            "x": 3858.6972665658654,
+            "y": 295.27527307969473
+          },
+          "nodeIndex": "dim_player",
+          "nodeLineageTag": "379253c9-bbad-4675-bca0-6cc3c12e1f48",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 20
+        },
+        {
+          "location": {
+            "x": 4349.5207104421661,
+            "y": 273.09754986974008
+          },
+          "nodeIndex": "bridge_roster_season",
+          "nodeLineageTag": "0a98423d-59df-4949-9e51-8f545c5ded5b",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 21
+        },
+        {
+          "location": {
+            "x": 3516.9374930785734,
+            "y": 827.41193281632025
+          },
+          "nodeIndex": "fact_player_season",
+          "nodeLineageTag": "d98d2d9c-f360-4fd4-8f5c-4621010fd83a",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 22
+        },
+        {
+          "location": {
+            "x": 4051.312656703034,
+            "y": 617.70403379941581
+          },
+          "nodeIndex": "fact_salary_player_season",
+          "nodeLineageTag": "cdd91bb0-0261-4a2b-85a4-d52830c896d3",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 23
+        },
+        {
+          "location": {
+            "x": 1012.5451603412265,
+            "y": 1507.2687140521718
+          },
+          "nodeIndex": "dim_date",
+          "nodeLineageTag": "ad7a03ee-f00b-4a6c-97ad-746558b862c4",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 1641.2842800366543,
+            "y": 1444.1530273097189
+          },
+          "nodeIndex": "dim_game",
+          "nodeLineageTag": "80c55331-826a-403c-b925-059ab10e85d2",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 3117.2063489581765,
+            "y": 0
+          },
+          "nodeIndex": "fact_cap_rules",
+          "nodeLineageTag": "ac994331-3b0e-4cb6-8cb8-78d7dc22eb1e",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 1484.1501742300143,
+            "y": 530.59442508397683
+          },
+          "nodeIndex": "fact_coach_season",
+          "nodeLineageTag": "24f491ff-440d-4f88-ac1a-ac7a8efcfe5f",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 1768.1501742300143,
+            "y": 518.59442508397683
+          },
+          "nodeIndex": "fact_coaching_staff",
+          "nodeLineageTag": "ae1707bb-2c70-47f3-b785-800035194dae",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 612.35290888903512,
+            "y": 770.70025424058372
+          },
+          "nodeIndex": "fact_commercial_agreement",
+          "nodeLineageTag": "6a238114-ee22-4e48-aa38-c4aa40d112ca",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 1986.5586632308159,
+            "y": 694.69875433123877
+          },
+          "nodeIndex": "fact_financial_statement",
+          "nodeLineageTag": "cb30d339-9ef1-430b-bc56-9a720371dfd4",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 2604.6110651341492,
+            "y": 1825.1976781562
+          },
+          "nodeIndex": "fact_injury",
+          "nodeLineageTag": "ce14d7b2-7d03-4369-9b4c-77d2fd0f3a10",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 2336.1501742300143,
+            "y": 458.59442508397683
+          },
+          "nodeIndex": "fact_knicks_player_advanced",
+          "nodeLineageTag": "cf7db1a1-3b5b-466b-8294-e8a86704d5b9",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 2746.1354769292925,
+            "y": 1128.6773094311486
+          },
+          "nodeIndex": "fact_player_game",
+          "nodeLineageTag": "79054065-0fc7-4c53-abae-3aea6030e4f4",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 10
+        },
+        {
+          "location": {
+            "x": 2620.1501742300143,
+            "y": 456.59442508397683
+          },
+          "nodeIndex": "fact_playoff_series",
+          "nodeLineageTag": "114f3050-0b4c-4f06-ad1f-f2e4a8b452c9",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 11
+        },
+        {
+          "location": {
+            "x": 2219.985822223487,
+            "y": 1034.2092144429228
+          },
+          "nodeIndex": "fact_team_game",
+          "nodeLineageTag": "b6dbd27d-dc10-423d-8fe4-c9734ed12d39",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 12
+        },
+        {
+          "location": {
+            "x": 2904.1501742300143,
+            "y": 456.59442508397683
+          },
+          "nodeIndex": "fact_team_season",
+          "nodeLineageTag": "a3b6e2c6-b601-4841-a37d-ad3f7b7c75f2",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 13
+        },
+        {
+          "location": {
+            "x": 431.77517423001404,
+            "y": 418.72236982225331
+          },
+          "nodeIndex": "fact_transactions",
+          "nodeLineageTag": "87b4f1df-533b-4339-a503-7e373e76b35f",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 14
+        },
+        {
+          "location": {
+            "x": 3472.8566473232631,
+            "y": 10.154394633655443
+          },
+          "nodeIndex": "fact_awards",
+          "nodeLineageTag": "26d0732a-432c-4c57-950a-a3923d81515e",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 15
+        },
+        {
+          "location": {
+            "x": 1601.7455362121518,
+            "y": 918.15439463365544
+          },
+          "nodeIndex": "dim_account",
+          "nodeLineageTag": "34af8436-e5c5-4a99-9942-c73a4f238733",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 16
+        },
+        {
+          "location": {
+            "x": 3829.3317431087039,
+            "y": 992.48389654936432
+          },
+          "nodeIndex": "Team Stats",
+          "nodeLineageTag": "70f256b1-a656-42f4-a626-2924819fb83a",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 18
+        },
+        {
+          "location": {
+            "x": 4013.239789085716,
+            "y": 1249.8172298826976
+          },
+          "nodeIndex": "Leader Metric",
+          "nodeLineageTag": "5f5cf72e-5b0e-49fe-a543-0999f7143691",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 19
+        },
+        {
+          "location": {
+            "x": 4271.8604787408867,
+            "y": 1199.7482643654562
+          },
+          "nodeIndex": "Stat View",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3752.32024885583,
+            "y": 1232.43791953787
+          },
+          "nodeIndex": "_Measures",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 19.731613256483534,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

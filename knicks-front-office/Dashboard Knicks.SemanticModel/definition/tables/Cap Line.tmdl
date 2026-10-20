@@ -1,0 +1,40 @@
+table 'Cap Line'
+	lineageTag: 8b070307-34d0-40bd-a50f-fb4b60b419eb
+
+	column Line
+		dataType: string
+		lineageTag: b37d2455-41ec-445a-92df-5dccab5b6c99
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Line]
+		sortByColumn: 'Line Order'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Line Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 024c112b-5ae8-41e9-bdb9-bc457e507109
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Line Order]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Cap Line' = calculated
+		mode: import
+		source =
+				
+				DATATABLE (
+				    "Line", STRING,
+				    "Line Order", INTEGER,
+				    {
+				        { "Salary cap", 1 },
+				        { "Tax line", 2 },
+				        { "First apron", 3 },
+				        { "Second apron", 4 },
+				        { "Knicks payroll", 5 }
+				    }
+				)
+

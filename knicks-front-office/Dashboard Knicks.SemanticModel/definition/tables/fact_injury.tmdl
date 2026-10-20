@@ -1,0 +1,95 @@
+table fact_injury
+	lineageTag: ce14d7b2-7d03-4369-9b4c-77d2fd0f3a10
+
+	column game_id
+		dataType: string
+		isHidden
+		lineageTag: 4ca89ae3-7d69-42b8-a1d1-e8617812790b
+		summarizeBy: none
+		sourceColumn: game_id
+
+		annotation SummarizationSetBy = User
+
+	column player_id
+		dataType: string
+		isHidden
+		lineageTag: 9a1baf5f-6691-468d-a478-589855765960
+		summarizeBy: none
+		sourceColumn: player_id
+
+		annotation SummarizationSetBy = User
+
+	column report_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: d9ee2afd-8877-4cc1-8691-9372dc5b0a80
+		summarizeBy: none
+		sourceColumn: report_date
+
+		annotation SummarizationSetBy = User
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column status
+		dataType: string
+		lineageTag: 3f7b04e6-132d-4aae-82b8-cef29ab4d44b
+		summarizeBy: none
+		sourceColumn: status
+
+		annotation SummarizationSetBy = User
+
+	column category
+		dataType: string
+		lineageTag: d4930d4f-e047-4480-a66e-b79071664c1b
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = User
+
+	column body_side
+		dataType: string
+		lineageTag: 6b08d4b6-7eef-4173-94ed-a74ff50b4833
+		summarizeBy: none
+		sourceColumn: body_side
+
+		annotation SummarizationSetBy = User
+
+	column body_part
+		dataType: string
+		lineageTag: 22b68088-ae55-41f1-a182-6dfe6610bf83
+		summarizeBy: none
+		sourceColumn: body_part
+
+		annotation SummarizationSetBy = User
+
+	column injury_type
+		dataType: string
+		lineageTag: c704042e-9b32-4482-b8a7-90c5d17dcae5
+		summarizeBy: none
+		sourceColumn: injury_type
+
+		annotation SummarizationSetBy = User
+
+	column 'Injury Label' = VAR _s = fact_injury[body_side] VAR _b = fact_injury[body_part] VAR _t = fact_injury[injury_type] VAR _x = TRIM ( IF ( LEN ( _s ) > 0, _s & " " ) & IF ( LEN ( _b ) > 0, LOWER ( _b ) & " " ) & LOWER ( _t ) ) RETURN UPPER ( LEFT ( _x, 1 ) ) & MID ( _x, 2, 200 )
+		dataType: string
+		lineageTag: ddf5797c-37d0-477f-abe2-196985ba2679
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_injury = m
+		mode: import
+		queryGroup: Sports
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "fact_injury.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    SelectedColumns = Table.SelectColumns(PromotedHeaders, {"game_id", "player_id", "report_date", "status", "category", "body_side", "body_part", "injury_type"}),
+				    ChangedTypes = Table.TransformColumnTypes(SelectedColumns, {{"game_id", type text}, {"player_id", type text}, {"report_date", type date}, {"status", type text}, {"category", type text}, {"body_side", type text}, {"body_part", type text}, {"injury_type", type text}}, "en-US")
+				in
+				    ChangedTypes
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

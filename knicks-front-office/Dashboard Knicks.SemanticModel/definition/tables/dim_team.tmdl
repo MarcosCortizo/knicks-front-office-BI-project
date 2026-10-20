@@ -1,0 +1,43 @@
+table dim_team
+	lineageTag: a27caf89-948e-45f3-944c-28e9d4158c08
+
+	column team_id
+		dataType: string
+		lineageTag: 787ef4e2-c07c-41a9-a4a0-de33efd001fb
+		summarizeBy: none
+		sourceColumn: team_id
+
+		annotation SummarizationSetBy = User
+
+	column team_name
+		dataType: string
+		lineageTag: 0c16a124-0809-42c7-9002-5f56f4dfe572
+		summarizeBy: none
+		sourceColumn: team_name
+
+		annotation SummarizationSetBy = User
+
+	column conference
+		dataType: string
+		lineageTag: 3290b6f8-73ef-417b-8ca4-96b112702e4b
+		summarizeBy: none
+		sourceColumn: conference
+
+		annotation SummarizationSetBy = User
+
+	partition dim_team = m
+		mode: import
+		queryGroup: Dimensions
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "dim_team.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    SelectedColumns = Table.SelectColumns(PromotedHeaders, {"team_id", "team_name", "conference"}),
+				    ChangedTypes = Table.TransformColumnTypes(SelectedColumns, {{"team_id", type text}, {"team_name", type text}, {"conference", type text}}, "en-US")
+				in
+				    ChangedTypes
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

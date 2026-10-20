@@ -1,0 +1,67 @@
+table 'Team Stats'
+	lineageTag: 70f256b1-a656-42f4-a626-2924819fb83a
+
+	column Stat
+		lineageTag: 583d873b-5180-4960-8270-09d52bbc8eac
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Stat]
+		sortByColumn: 'Stat Order'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Stat Order'
+		isHidden
+		formatString: 0
+		lineageTag: 0596e27f-bc66-4866-b181-44926e3cd784
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Stat Order]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Lower Is Better'
+		isHidden
+		formatString: 0
+		lineageTag: 3ac8b4c8-77f9-4b4f-81fe-14985a4c3095
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Lower Is Better]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Pct'
+		isHidden
+		formatString: 0
+		lineageTag: d5f43d8b-320c-43d4-af80-600b7c2e7957
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Is Pct]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Team Stats' = calculated
+		mode: import
+		source =
+				
+				DATATABLE (
+				    "Stat", STRING,
+				    "Stat Order", INTEGER,
+				    "Lower Is Better", INTEGER,
+				    "Is Pct", INTEGER,
+				    {
+				        { "PTS",     1, 0, 0 },
+				        { "Opp PTS", 2, 1, 0 },
+				        { "REB",     3, 0, 0 },
+				        { "AST",     4, 0, 0 },
+				        { "TOV",     5, 1, 0 },
+				        { "STL",     6, 0, 0 },
+				        { "BLK",     7, 0, 0 },
+				        { "FG%",     8, 0, 1 },
+				        { "3P%",     9, 0, 1 },
+				        { "FT%",    10, 0, 1 }
+				    }
+				)
+
+	annotation PBI_Id = 768a2009c00a492aad74234f27d475c5
+

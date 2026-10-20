@@ -1,0 +1,216 @@
+table fact_player_season
+	lineageTag: d98d2d9c-f360-4fd4-8f5c-4621010fd83a
+
+	column season_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 608c5afd-dc35-4403-bd18-c5ca8b9ece4d
+		summarizeBy: none
+		sourceColumn: season_id
+
+		annotation SummarizationSetBy = User
+
+	column phase_id
+		dataType: string
+		isHidden
+		lineageTag: ff277fc4-805a-473f-ade5-c0d6a5868480
+		summarizeBy: none
+		sourceColumn: phase_id
+
+		annotation SummarizationSetBy = User
+
+	column player_id
+		dataType: string
+		isHidden
+		lineageTag: 019c2f42-6439-4d03-83b0-9ea518ed5515
+		summarizeBy: none
+		sourceColumn: player_id
+
+		annotation SummarizationSetBy = User
+
+	column team_id
+		dataType: string
+		isHidden
+		lineageTag: 51c0d689-c3f9-43e4-9460-0e05311e3f5c
+		summarizeBy: none
+		sourceColumn: team_id
+
+		annotation SummarizationSetBy = User
+
+	column scope
+		dataType: string
+		lineageTag: fb348003-9dfd-4998-8b35-2bc8447a41f2
+		summarizeBy: none
+		sourceColumn: scope
+
+		annotation SummarizationSetBy = User
+
+	column age
+		dataType: int64
+		formatString: 0
+		lineageTag: e5240f4c-2c32-450f-b053-d0bc16becb57
+		summarizeBy: none
+		sourceColumn: age
+
+		annotation SummarizationSetBy = User
+
+	column games
+		dataType: int64
+		formatString: #,0
+		lineageTag: 1bbd9e06-f172-4304-815e-84f77439b18e
+		summarizeBy: sum
+		sourceColumn: games
+
+		annotation SummarizationSetBy = User
+
+	column games_started
+		dataType: int64
+		formatString: #,0
+		lineageTag: 13234f7c-1322-452a-8b97-f647dafdbed8
+		summarizeBy: sum
+		sourceColumn: games_started
+
+		annotation SummarizationSetBy = User
+
+	column mp
+		dataType: int64
+		formatString: #,0
+		lineageTag: 41aaea5d-17dc-4265-979f-a01072b41f79
+		summarizeBy: sum
+		sourceColumn: mp
+
+		annotation SummarizationSetBy = User
+
+	column fg
+		dataType: int64
+		formatString: #,0
+		lineageTag: 252d900a-0a5f-45cf-9ca0-822ecb730a5e
+		summarizeBy: sum
+		sourceColumn: fg
+
+		annotation SummarizationSetBy = User
+
+	column fga
+		dataType: int64
+		formatString: #,0
+		lineageTag: 9f0ba284-0f43-420a-9ae1-1992767cd71a
+		summarizeBy: sum
+		sourceColumn: fga
+
+		annotation SummarizationSetBy = User
+
+	column fg3
+		dataType: int64
+		formatString: #,0
+		lineageTag: 60e47a96-b177-48dd-8781-a7dbc0be0f57
+		summarizeBy: sum
+		sourceColumn: fg3
+
+		annotation SummarizationSetBy = User
+
+	column fg3a
+		dataType: int64
+		formatString: #,0
+		lineageTag: 155c37e9-a34b-4e02-896a-9c398a6be11d
+		summarizeBy: sum
+		sourceColumn: fg3a
+
+		annotation SummarizationSetBy = User
+
+	column ft
+		dataType: int64
+		formatString: #,0
+		lineageTag: ab360518-ccee-4d0a-b0d9-477cac8826fb
+		summarizeBy: sum
+		sourceColumn: ft
+
+		annotation SummarizationSetBy = User
+
+	column fta
+		dataType: int64
+		formatString: #,0
+		lineageTag: 795297b4-38e7-49e3-9e17-8c37293bd801
+		summarizeBy: sum
+		sourceColumn: fta
+
+		annotation SummarizationSetBy = User
+
+	column trb
+		dataType: int64
+		formatString: #,0
+		lineageTag: aecb1011-1975-4b3e-bd2a-eb182e8bb06e
+		summarizeBy: sum
+		sourceColumn: trb
+
+		annotation SummarizationSetBy = User
+
+	column ast
+		dataType: int64
+		formatString: #,0
+		lineageTag: aa6c5c53-48f3-474f-8f99-9d47f8592461
+		summarizeBy: sum
+		sourceColumn: ast
+
+		annotation SummarizationSetBy = User
+
+	column stl
+		dataType: int64
+		formatString: #,0
+		lineageTag: a96f7728-9239-45f4-8353-84d9de3c55a1
+		summarizeBy: sum
+		sourceColumn: stl
+
+		annotation SummarizationSetBy = User
+
+	column blk
+		dataType: int64
+		formatString: #,0
+		lineageTag: 872058eb-4861-427e-91c2-09aad012b686
+		summarizeBy: sum
+		sourceColumn: blk
+
+		annotation SummarizationSetBy = User
+
+	column tov
+		dataType: int64
+		formatString: #,0
+		lineageTag: 0f61e7ce-bafc-464a-95fe-2a3399298f69
+		summarizeBy: sum
+		sourceColumn: tov
+
+		annotation SummarizationSetBy = User
+
+	column pts
+		dataType: int64
+		formatString: #,0
+		lineageTag: bd63b37c-8cd2-4c94-845e-0a43a53bcd7d
+		summarizeBy: sum
+		sourceColumn: pts
+
+		annotation SummarizationSetBy = User
+
+	column awards
+		dataType: string
+		lineageTag: 3cd79712-ef13-405c-922c-cfb1b6453f1e
+		summarizeBy: none
+		sourceColumn: awards
+
+		annotation SummarizationSetBy = User
+
+	partition fact_player_season = m
+		mode: import
+		queryGroup: Sports
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "fact_player_season.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    SelectedColumns = Table.SelectColumns(PromotedHeaders, {"season_id", "phase_id", "player_id", "team_id", "scope", "age", "games", "games_started", "mp", "fg", "fga", "fg3", "fg3a", "ft", "fta", "trb", "ast", "stl", "blk", "tov", "pts", "awards"}),
+				    ChangedTypes = Table.TransformColumnTypes(SelectedColumns, {{"season_id", Int64.Type}, {"phase_id", type text}, {"player_id", type text}, {"team_id", type text}, {"scope", type text}, {"age", Int64.Type}, {"games", Int64.Type}, {"games_started", Int64.Type}, {"mp", Int64.Type}, {"fg", Int64.Type}, {"fga", Int64.Type}, {"fg3", Int64.Type}, {"fg3a", Int64.Type}, {"ft", Int64.Type}, {"fta", Int64.Type}, {"trb", Int64.Type}, {"ast", Int64.Type}, {"stl", Int64.Type}, {"blk", Int64.Type}, {"tov", Int64.Type}, {"pts", Int64.Type}, {"awards", type text}}, "en-US")
+				in
+				    ChangedTypes
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

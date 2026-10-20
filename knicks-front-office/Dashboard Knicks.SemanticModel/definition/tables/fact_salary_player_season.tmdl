@@ -1,0 +1,64 @@
+table fact_salary_player_season
+	lineageTag: cdd91bb0-0261-4a2b-85a4-d52830c896d3
+
+	column season_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 223ee74b-628f-4b77-9e8b-8ddca25837c3
+		summarizeBy: none
+		sourceColumn: season_id
+
+		annotation SummarizationSetBy = User
+
+	column team_id
+		dataType: string
+		isHidden
+		lineageTag: bf48f90a-df3e-496f-bb2a-197651a0f75c
+		summarizeBy: none
+		sourceColumn: team_id
+
+		annotation SummarizationSetBy = User
+
+	column player_id
+		dataType: string
+		isHidden
+		lineageTag: 0e9b9406-3e25-4302-a012-7c356e04e3ee
+		summarizeBy: none
+		sourceColumn: player_id
+
+		annotation SummarizationSetBy = User
+
+	column contract_type
+		dataType: string
+		lineageTag: 35925302-5cdb-47d5-8d20-00c30b3f2c2b
+		summarizeBy: none
+		sourceColumn: contract_type
+
+		annotation SummarizationSetBy = User
+
+	column salary_usd
+		dataType: int64
+		formatString: $#,0
+		lineageTag: 6696656e-d6c2-49d8-b5b8-9cb3da87f404
+		summarizeBy: sum
+		sourceColumn: salary_usd
+
+		annotation SummarizationSetBy = User
+
+	partition fact_salary_player_season = m
+		mode: import
+		queryGroup: Finance
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "fact_salary_player_season.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    SelectedColumns = Table.SelectColumns(PromotedHeaders, {"season_id", "team_id", "player_id", "contract_type", "salary_usd"}),
+				    ChangedTypes = Table.TransformColumnTypes(SelectedColumns, {{"season_id", Int64.Type}, {"team_id", type text}, {"player_id", type text}, {"contract_type", type text}, {"salary_usd", Int64.Type}}, "en-US")
+				in
+				    ChangedTypes
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

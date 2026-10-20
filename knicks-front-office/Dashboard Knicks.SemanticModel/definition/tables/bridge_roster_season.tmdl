@@ -1,0 +1,101 @@
+table bridge_roster_season
+	lineageTag: 0a98423d-59df-4949-9e51-8f545c5ded5b
+
+	column season_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 2308b92c-a2a0-46fe-bf6e-14cc8a8bebf1
+		summarizeBy: none
+		sourceColumn: season_id
+
+		annotation SummarizationSetBy = User
+
+	column team_id
+		dataType: string
+		isHidden
+		lineageTag: fde32ae4-e6e4-496f-8bec-886b9aedb912
+		summarizeBy: none
+		sourceColumn: team_id
+
+		annotation SummarizationSetBy = User
+
+	column player_id
+		dataType: string
+		isHidden
+		lineageTag: 57825afe-54aa-4d43-a64c-4b93189eea17
+		summarizeBy: none
+		sourceColumn: player_id
+
+		annotation SummarizationSetBy = User
+
+	column number
+		dataType: string
+		lineageTag: 098678d6-35b5-48ee-84f2-65a284f07396
+		summarizeBy: none
+		sourceColumn: number
+
+		annotation SummarizationSetBy = User
+
+	column pos
+		dataType: string
+		lineageTag: 17642662-316f-4002-ad29-7d972a85e029
+		summarizeBy: none
+		sourceColumn: pos
+
+		annotation SummarizationSetBy = User
+
+	column height_cm
+		dataType: double
+		formatString: 0.0
+		lineageTag: 21b06239-fe7a-4a01-83ec-4ba3bc36f1ac
+		summarizeBy: none
+		sourceColumn: height_cm
+
+		annotation SummarizationSetBy = User
+
+	column weight_kg
+		dataType: double
+		formatString: 0.0
+		lineageTag: a791f8d3-bc25-4211-bb69-5520091e211e
+		summarizeBy: none
+		sourceColumn: weight_kg
+
+		annotation SummarizationSetBy = User
+
+	column birth_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: b091e007-c09c-447c-813c-6cc7e84cee46
+		summarizeBy: none
+		sourceColumn: birth_date
+
+		annotation SummarizationSetBy = User
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column years_experience
+		dataType: int64
+		formatString: 0
+		lineageTag: d1d75c77-edfd-460c-9e3b-8ba7fd941a55
+		summarizeBy: none
+		sourceColumn: years_experience
+
+		annotation SummarizationSetBy = User
+
+	partition bridge_roster_season = m
+		mode: import
+		queryGroup: Bridges
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "bridge_roster_season.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    SelectedColumns = Table.SelectColumns(PromotedHeaders, {"season_id", "team_id", "player_id", "number", "pos", "height_cm", "weight_kg", "birth_date", "years_experience"}),
+				    ChangedTypes = Table.TransformColumnTypes(SelectedColumns, {{"season_id", Int64.Type}, {"team_id", type text}, {"player_id", type text}, {"number", type text}, {"pos", type text}, {"height_cm", type number}, {"weight_kg", type number}, {"birth_date", type date}, {"years_experience", Int64.Type}}, "en-US")
+				in
+				    ChangedTypes
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

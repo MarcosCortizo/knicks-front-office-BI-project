@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Dashboard Knicks"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "bffc8e43-8dbf-410d-aa19-6c301a51c095"
+  }
+}

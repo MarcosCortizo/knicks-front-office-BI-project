@@ -1,0 +1,127 @@
+table dim_game
+	lineageTag: 80c55331-826a-403c-b925-059ab10e85d2
+
+	column game_id
+		dataType: string
+		lineageTag: 31ae7910-f8c5-426b-8e94-7fa4843bcaff
+		summarizeBy: none
+		sourceColumn: game_id
+
+		annotation SummarizationSetBy = User
+
+	column season_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 903e9066-2456-45f8-abb8-b5c57e06ff49
+		summarizeBy: none
+		sourceColumn: season_id
+
+		annotation SummarizationSetBy = User
+
+	column phase_id
+		dataType: string
+		isHidden
+		lineageTag: 15267ca0-aeae-46b7-96f3-e637f136ff93
+		summarizeBy: none
+		sourceColumn: phase_id
+
+		annotation SummarizationSetBy = User
+
+	column game_date
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: 056ed58b-20c9-4691-88f7-56f549d2cf21
+		summarizeBy: none
+		sourceColumn: game_date
+
+		annotation SummarizationSetBy = User
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column home_team_id
+		dataType: string
+		lineageTag: ca6b0fd1-f13d-460b-af3a-8b981c067634
+		summarizeBy: none
+		sourceColumn: home_team_id
+
+		annotation SummarizationSetBy = User
+
+	column away_team_id
+		dataType: string
+		lineageTag: f8d0c351-3f2e-4aad-b7d7-1dcb1bc5cdf3
+		summarizeBy: none
+		sourceColumn: away_team_id
+
+		annotation SummarizationSetBy = User
+
+	column home_pts
+		dataType: int64
+		formatString: 0
+		lineageTag: 254eb297-5d25-4f40-9d14-b2f00e94dcf3
+		summarizeBy: none
+		sourceColumn: home_pts
+
+		annotation SummarizationSetBy = User
+
+	column away_pts
+		dataType: int64
+		formatString: 0
+		lineageTag: e9a3f96d-d895-441d-850d-96a01d050834
+		summarizeBy: none
+		sourceColumn: away_pts
+
+		annotation SummarizationSetBy = User
+
+	column winner_team_id
+		dataType: string
+		lineageTag: f3bb536a-fc12-4d6d-89f8-d5d3c290cda5
+		summarizeBy: none
+		sourceColumn: winner_team_id
+
+		annotation SummarizationSetBy = User
+
+	column attendance
+		dataType: int64
+		formatString: #,0
+		lineageTag: 3548d4fe-da64-4a43-8e74-3f763becfac2
+		summarizeBy: sum
+		sourceColumn: attendance
+
+		annotation SummarizationSetBy = User
+
+	column is_knicks_game
+		dataType: int64
+		formatString: 0
+		lineageTag: 9b0fda6a-f6e0-4c75-bf30-54a8cba0c1f0
+		summarizeBy: none
+		sourceColumn: is_knicks_game
+
+		annotation SummarizationSetBy = User
+
+	column 'Knicks Game No' = VAR _d = dim_game[game_date] VAR _s = dim_game[season_id] VAR _p = dim_game[phase_id] RETURN IF ( dim_game[is_knicks_game] = 1, COUNTROWS ( FILTER ( dim_game, dim_game[season_id] = _s && dim_game[phase_id] = _p && dim_game[is_knicks_game] = 1 && dim_game[game_date] <= _d ) ) )
+		dataType: int64
+		formatString: 0
+		lineageTag: f8234f8f-6661-4d4d-8164-e81c8d99ed51
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
+	partition dim_game = m
+		mode: import
+		queryGroup: Dimensions
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "dim_game.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    SelectedColumns = Table.SelectColumns(PromotedHeaders, {"game_id", "season_id", "phase_id", "game_date", "home_team_id", "away_team_id", "home_pts", "away_pts", "winner_team_id", "attendance"}),
+				    ChangedTypes = Table.TransformColumnTypes(SelectedColumns, {{"game_id", type text}, {"season_id", Int64.Type}, {"phase_id", type text}, {"game_date", type date}, {"home_team_id", type text}, {"away_team_id", type text}, {"home_pts", Int64.Type}, {"away_pts", Int64.Type}, {"winner_team_id", type text}, {"attendance", Int64.Type}}, "en-US"),
+				    IsKnicks = Table.AddColumn(ChangedTypes, "is_knicks_game", each if [home_team_id] = "NYK" or [away_team_id] = "NYK" then 1 else 0, Int64.Type)
+				in
+				    IsKnicks
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,45 @@
+table dim_phase
+	lineageTag: 53c8377e-3858-4e0a-a77a-ffe7691f08ed
+
+	column phase_id
+		dataType: string
+		lineageTag: a61f3062-aa48-43bf-bca0-52d8e7705da8
+		summarizeBy: none
+		sourceColumn: phase_id
+
+		annotation SummarizationSetBy = User
+
+	column phase_name
+		dataType: string
+		lineageTag: 02c4d5f8-2fd1-4cbb-99f9-0e07311319dd
+		summarizeBy: none
+		sourceColumn: phase_name
+		sortByColumn: phase_order
+
+		annotation SummarizationSetBy = User
+
+	column phase_order
+		dataType: int64
+		formatString: 0
+		lineageTag: de5bd88c-82fc-43e0-b870-7c60834bdc93
+		summarizeBy: none
+		sourceColumn: phase_order
+
+		annotation SummarizationSetBy = User
+
+	partition dim_phase = m
+		mode: import
+		queryGroup: Dimensions
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "dim_phase.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    SelectedColumns = Table.SelectColumns(PromotedHeaders, {"phase_id", "phase_name", "phase_order"}),
+				    ChangedTypes = Table.TransformColumnTypes(SelectedColumns, {{"phase_id", type text}, {"phase_name", type text}, {"phase_order", Int64.Type}}, "en-US")
+				in
+				    ChangedTypes
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

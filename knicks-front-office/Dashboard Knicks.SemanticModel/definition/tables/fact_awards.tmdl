@@ -1,0 +1,119 @@
+table fact_awards
+	lineageTag: 26d0732a-432c-4c57-950a-a3923d81515e
+
+	column season_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 12968b20-cec1-42be-a992-66476cb28ca2
+		summarizeBy: none
+		sourceColumn: season_id
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column player_id
+		dataType: string
+		isHidden
+		lineageTag: 1b54faa5-bc91-4737-bb99-1a90bfdb0e22
+		summarizeBy: none
+		sourceColumn: player_id
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column award_code
+		dataType: string
+		lineageTag: 7499c22a-f5ab-4e82-8f36-b7a091d2e608
+		summarizeBy: none
+		sourceColumn: award_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column award_rank
+		dataType: int64
+		formatString: 0
+		lineageTag: 3a254de8-56d4-487e-a145-7f8dae748c72
+		summarizeBy: none
+		sourceColumn: award_rank
+
+		annotation SummarizationSetBy = User
+
+	column 'Award Label' =
+			
+			VAR C = fact_awards[award_code]
+			VAR R = fact_awards[award_rank]
+			VAR Ord =
+			    R & SWITCH (
+			        TRUE (),
+			        R IN { 11, 12, 13 }, "th",
+			        MOD ( R, 10 ) = 1, "st",
+			        MOD ( R, 10 ) = 2, "nd",
+			        MOD ( R, 10 ) = 3, "rd",
+			        "th"
+			    )
+			RETURN
+			    SWITCH (
+			        C,
+			        "Finals MVP", "Finals MVP",
+			        "AS",   "All-Star",
+			        "NBA",  "All-NBA " & Ord & " Team",
+			        "DEF",  "All-Defensive " & Ord & " Team",
+			        "MVP",  IF ( R = 1, "MVP", "MVP " & Ord ),
+			        "DPOY", IF ( R = 1, "Defensive Player of the Year", "DPOY " & Ord ),
+			        "ROY",  IF ( R = 1, "Rookie of the Year", "ROY " & Ord ),
+			        "6MOY", IF ( R = 1, "Sixth Man of the Year", "Sixth Man " & Ord ),
+			        "MIP",  IF ( R = 1, "Most Improved Player", "MIP " & Ord ),
+			        "CPOY", IF ( R = 1, "Clutch Player of the Year", "Clutch POY " & Ord ),
+			        C
+			    )
+		lineageTag: a9435d7e-ac26-4e1d-8c23-56a0b246b16e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Award Order' =
+			
+			VAR C = fact_awards[award_code]
+			VAR R = fact_awards[award_rank]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        C = "Finals MVP", 1,
+			        R = 1 && C IN { "MVP", "DPOY", "ROY", "6MOY", "MIP", "CPOY" }, 2,
+			        C = "NBA", 3,
+			        C = "DEF", 4,
+			        C = "AS", 5,
+			        6
+			    )
+		formatString: 0
+		lineageTag: 40369e3a-357d-4ef4-a945-103607d5de94
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_awards = m
+		mode: import
+		queryGroup: Sports
+		source =
+				let
+				    Source = fact_player_season,
+				    #"Filtered Rows" = Table.SelectRows(Source, each [awards] <> null and [awards] <> ""),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows",{"season_id", "player_id", "awards"}),
+				    #"Split Column by Delimiter" = Table.ExpandListColumn(Table.TransformColumns(#"Removed Other Columns", {{"awards", Splitter.SplitTextByDelimiter(",", QuoteStyle.Csv), let itemType = (type nullable text) meta [Serialized.Text = true] in type {itemType}}}), "awards"),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"awards", type text}}),
+				    #"Trimmed Text" = Table.TransformColumns(#"Changed Type",{{"awards", Text.Trim, type text}}),
+				    #"Removed Duplicates" = Table.Distinct(#"Trimmed Text"),
+				    #"Split Column by Character Transition" = Table.SplitColumn(#"Removed Duplicates", "awards", Splitter.SplitTextByCharacterTransition((c) => not List.Contains({"0".."9"}, c), {"0".."9"}), {"awards.1", "awards.2"}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Split Column by Character Transition","-","",Replacer.ReplaceText,{"awards.1"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Replaced Value",{{"awards.1", "award_code"}, {"awards.2", "award_rank"}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Renamed Columns",{{"award_rank", Int64.Type}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

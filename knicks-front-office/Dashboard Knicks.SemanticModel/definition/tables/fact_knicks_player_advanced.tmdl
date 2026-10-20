@@ -1,0 +1,101 @@
+table fact_knicks_player_advanced
+	lineageTag: cf7db1a1-3b5b-466b-8294-e8a86704d5b9
+
+	column season_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 278df08b-d162-48cf-9728-c847fb46cbc3
+		summarizeBy: none
+		sourceColumn: season_id
+
+		annotation SummarizationSetBy = User
+
+	column phase_id
+		dataType: string
+		isHidden
+		lineageTag: 7b5b1b3d-db5e-415e-adbb-1b1d48b3956f
+		summarizeBy: none
+		sourceColumn: phase_id
+
+		annotation SummarizationSetBy = User
+
+	column team_id
+		dataType: string
+		isHidden
+		lineageTag: 419b6aa9-edad-40bd-b291-e3e9716eefcb
+		summarizeBy: none
+		sourceColumn: team_id
+
+		annotation SummarizationSetBy = User
+
+	column player_id
+		dataType: string
+		isHidden
+		lineageTag: 290d1f2b-73cb-4a07-ab64-2439958e2b17
+		summarizeBy: none
+		sourceColumn: player_id
+
+		annotation SummarizationSetBy = User
+
+	column per
+		dataType: double
+		formatString: 0.0
+		lineageTag: 11839b04-d72d-40cd-8f7f-b483a2383033
+		summarizeBy: none
+		sourceColumn: per
+
+		annotation SummarizationSetBy = User
+
+	column ts_pct
+		dataType: double
+		formatString: 0.0%
+		lineageTag: b2153765-c1f6-4297-a9f7-89fb46e49be4
+		summarizeBy: none
+		sourceColumn: ts_pct
+
+		annotation SummarizationSetBy = User
+
+	column usg_pct
+		dataType: double
+		formatString: 0.0
+		lineageTag: 5bd4acbe-8422-4984-96ac-fc8059478a1d
+		summarizeBy: none
+		sourceColumn: usg_pct
+
+		annotation SummarizationSetBy = User
+
+	column ws
+		dataType: double
+		formatString: 0.0
+		lineageTag: ac2c4f76-6e6a-4004-b434-4074360747b2
+		summarizeBy: none
+		sourceColumn: ws
+
+		annotation SummarizationSetBy = User
+
+	column bpm
+		dataType: double
+		formatString: 0.0
+		lineageTag: cf0cc5ec-e0a2-429c-869b-d4fbbea7f3d6
+		summarizeBy: none
+		sourceColumn: bpm
+
+		annotation SummarizationSetBy = User
+
+	partition fact_knicks_player_advanced = m
+		mode: import
+		queryGroup: Sports
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "fact_knicks_player_advanced.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    SelectedColumns = Table.SelectColumns(PromotedHeaders, {"season_id", "phase_id", "team_id", "player_id", "per", "ts_pct", "usg_pct", "ws", "bpm"}),
+				    ChangedTypes = Table.TransformColumnTypes(SelectedColumns, {{"season_id", Int64.Type}, {"phase_id", type text}, {"team_id", type text}, {"player_id", type text}, {"per", type number}, {"ts_pct", type number}, {"usg_pct", type number}, {"ws", type number}, {"bpm", type number}}, "en-US")
+				in
+				    ChangedTypes
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

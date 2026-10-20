@@ -1,0 +1,152 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "9d6214aac476dcb11193",
+  "position": {
+    "x": 24,
+    "y": 140,
+    "z": 1020,
+    "height": 600,
+    "width": 900,
+    "tabOrder": 1020
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Sources",
+                    "textStyle": {
+                      "fontSize": "20pt",
+                      "color": "#ffffff",
+                      "fontFamily": "Segoe UI",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Basketball Reference: schedule, results, team and player stats, playoffs, rosters, coaches and transactions.",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#ffffff",
+                      "fontFamily": "Segoe UI"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "ESPN public API: player and team box scores.",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#ffffff",
+                      "fontFamily": "Segoe UI"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "NBA official injury reports (PDF, 6:00 PM ET edition).",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#ffffff",
+                      "fontFamily": "Segoe UI"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Basketball Reference and Salary Swish: player salaries.",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#ffffff",
+                      "fontFamily": "Segoe UI"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "NBA Communications: salary cap, tax line and aprons.",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#ffffff",
+                      "fontFamily": "Segoe UI"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "MSG Sports investor relations: financial statements and commercial agreements.",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#ffffff",
+                      "fontFamily": "Segoe UI"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

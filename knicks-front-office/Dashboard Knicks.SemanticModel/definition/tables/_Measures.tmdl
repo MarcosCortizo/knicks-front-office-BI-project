@@ -1,0 +1,968 @@
+table _Measures
+	lineageTag: 1cdff483-0556-40b7-bfe4-f9b15d8f8838
+
+	measure Games =
+			
+			VAR TeamId = "NYK"
+			RETURN
+			    COUNTROWS (
+			        FILTER (
+			            dim_game,
+			            dim_game[home_team_id] = TeamId
+			                || dim_game[away_team_id] = TeamId
+			        )
+			    )
+		formatString: 0
+		displayFolder: Results
+		lineageTag: b2f3c365-98e1-4421-a859-73119751b9c7
+
+	measure Wins =
+			
+			CALCULATE ( COUNTROWS ( dim_game ), dim_game[winner_team_id] = "NYK" )
+		formatString: 0
+		displayFolder: Results
+		lineageTag: 0fbc39c3-a2b7-4130-8779-b0c52be9bddd
+
+	measure Losses =
+			
+			[Games] - [Wins]
+		formatString: 0
+		displayFolder: Results
+		lineageTag: 825ef046-71bf-428a-94b3-199d5b8567d0
+
+	measure 'Win %' =
+			
+			DIVIDE ( [Wins], [Games] )
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Results
+		lineageTag: 033383d5-f705-472a-a74f-14a2225e3403
+
+	measure Record =
+			
+			[Wins] & "-" & [Losses]
+		displayFolder: Results
+		lineageTag: 31d5c30a-e76f-46e5-9db6-5a6d0ff7feb6
+
+	measure 'Standing or Round' =
+			
+			VAR TeamId = "NYK"
+			VAR PhaseSel = SELECTEDVALUE ( dim_phase[phase_id] )
+			
+			-- Regular season: conference standing, e.g. "3rd East"
+			VAR ConfRank =
+			    CALCULATE (
+			        MAX ( fact_team_season[conference_rank] ),
+			        fact_team_season[team_id] = TeamId,
+			        dim_phase[phase_id] = "REG"
+			    )
+			VAR Suffix =
+			    SWITCH (
+			        TRUE (),
+			        ConfRank IN { 11, 12, 13 }, "th",
+			        MOD ( ConfRank, 10 ) = 1, "st",
+			        MOD ( ConfRank, 10 ) = 2, "nd",
+			        MOD ( ConfRank, 10 ) = 3, "rd",
+			        "th"
+			    )
+			VAR ConfName =
+			    IF ( LOOKUPVALUE ( dim_team[conference], dim_team[team_id], TeamId ) = "E", "East", "West" )
+			
+			-- Playoffs: last series played and who won it
+			VAR TeamSeries =
+			    FILTER (
+			        fact_playoff_series,
+			        fact_playoff_series[team_a_id] = TeamId
+			            || fact_playoff_series[team_b_id] = TeamId
+			    )
+			VAR LastRound = MAXX ( TeamSeries, fact_playoff_series[round_num] )
+			VAR LastSeries = FILTER ( TeamSeries, fact_playoff_series[round_num] = LastRound )
+			VAR LastName = MAXX ( LastSeries, fact_playoff_series[round_name] )
+			VAR LastWinner = MAXX ( LastSeries, fact_playoff_series[winner_team_id] )
+			
+			RETURN
+			    SWITCH (
+			        PhaseSel,
+			        "REG", ConfRank & Suffix & " " & ConfName,
+			        "PO", IF ( LastWinner = TeamId && LastRound = 4, "NBA Champions", "Lost in " & LastName ),
+			        BLANK ()
+			    )
+		displayFolder: Results
+		lineageTag: 7cc848df-878d-412c-866d-d29295de5dfd
+
+	measure 'Net Rating' =
+			
+			CALCULATE ( MAX ( fact_team_season[net_rtg] ), fact_team_season[team_id] = "NYK" )
+		formatString: +0.0;-0.0;0.0
+		displayFolder: Team
+		lineageTag: 76a2a38a-d34c-4633-9528-4f1b0721914c
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'Stat Value' =
+			
+			VAR S = SELECTEDVALUE ( 'Team Stats'[Stat] )
+			VAR G = SUM ( fact_team_season[g] )
+			RETURN
+			    SWITCH (
+			        S,
+			        "PTS",     DIVIDE ( SUM ( fact_team_season[pts] ), G ),
+			        "Opp PTS", DIVIDE ( SUM ( fact_team_season[opp_pts] ), G ),
+			        "REB",     DIVIDE ( SUM ( fact_team_season[trb] ), G ),
+			        "AST",     DIVIDE ( SUM ( fact_team_season[ast] ), G ),
+			        "TOV",     DIVIDE ( SUM ( fact_team_season[tov] ), G ),
+			        "STL",     DIVIDE ( SUM ( fact_team_season[stl] ), G ),
+			        "BLK",     DIVIDE ( SUM ( fact_team_season[blk] ), G ),
+			        "FG%",     DIVIDE ( SUM ( fact_team_season[fg] ),  SUM ( fact_team_season[fga] ) ),
+			        "3P%",     DIVIDE ( SUM ( fact_team_season[fg3] ), SUM ( fact_team_season[fg3a] ) ),
+			        "FT%",     DIVIDE ( SUM ( fact_team_season[ft] ),  SUM ( fact_team_season[fta] ) )
+			    )
+		isHidden
+		displayFolder: Team
+		lineageTag: 5f23e9ea-de39-4fbc-8e89-b4a96aac6b64
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Knicks = ```
+			
+			   CALCULATE ( [Stat Value], dim_team[team_id] = "NYK" )
+			```
+		displayFolder: Team
+		lineageTag: d6f01708-cdd7-4f66-9647-f57467a2bb58
+
+		formatStringDefinition = IF ( SELECTEDVALUE ( 'Team Stats'[Is Pct] ) = 1, "0.0%", "0.0" )
+
+	measure 'NBA Average' =
+			
+			AVERAGEX (
+			    FILTER ( ALL ( dim_team[team_id] ), NOT ISBLANK ( [Stat Value] ) ),
+			    [Stat Value]
+			)
+		displayFolder: Team
+		lineageTag: 4b73a5d1-a7b7-4690-8fe2-00e074c8b5de
+
+		formatStringDefinition = IF ( SELECTEDVALUE ( 'Team Stats'[Is Pct] ) = 1, "0.0%", "0.0" )
+
+	measure 'NBA Rank' =
+			
+			VAR NykValue = [Knicks]
+			VAR Teams = FILTER ( ALL ( dim_team[team_id] ), NOT ISBLANK ( [Stat Value] ) )
+			RETURN
+			    IF (
+			        SELECTEDVALUE ( 'Team Stats'[Lower Is Better] ) = 1,
+			        RANKX ( Teams, [Stat Value], NykValue, ASC, SKIP ),
+			        RANKX ( Teams, [Stat Value], NykValue, DESC, SKIP )
+			    )
+		formatString: 0
+		displayFolder: Team
+		lineageTag: f5abbc0c-c3cc-40e8-b9fe-97210240d63b
+
+	measure 'Game Margin' =
+			
+			VAR TeamId = "NYK"
+			RETURN
+			    SUMX (
+			        FILTER (
+			            dim_game,
+			            dim_game[home_team_id] = TeamId
+			                || dim_game[away_team_id] = TeamId
+			        ),
+			        IF (
+			            dim_game[home_team_id] = TeamId,
+			            dim_game[home_pts] - dim_game[away_pts],
+			            dim_game[away_pts] - dim_game[home_pts]
+			        )
+			    )
+		displayFolder: Results
+		lineageTag: 157bcc8c-40be-43c7-ac67-18c641d1ebc7
+
+		formatStringDefinition = "+0;-0;0"
+
+	measure 'Results Title' = ```
+			
+			VAR SeasonTxt = SELECTEDVALUE ( dim_season[season_label] )
+			VAR PhaseTxt = SELECTEDVALUE ( dim_phase[phase_name] )
+			RETURN
+			    SeasonTxt & " " & PhaseTxt & "  " & [Record] & " V/D "
+			      
+			```
+		displayFolder: Labels
+		lineageTag: 3dfc32ad-8ff1-4d1a-8996-5ae23fad84f8
+
+	measure 'Player Games' =
+			
+			CALCULATE ( SUM ( fact_player_season[games] ), fact_player_season[scope] = "TEAM" )
+		formatString: 0
+		displayFolder: Players
+		lineageTag: 0c8ea80d-c19d-4cd0-8e3d-2fdbfe1e3725
+
+	measure PTS =
+			
+			DIVIDE ( CALCULATE ( SUM ( fact_player_season[pts] ), fact_player_season[scope] = "TEAM" ), [Player Games] )
+		displayFolder: Players
+		lineageTag: 89d9319b-01dd-45f9-80be-9f59bee8f0ec
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure REB =
+			
+			DIVIDE ( CALCULATE ( SUM ( fact_player_season[trb] ), fact_player_season[scope] = "TEAM" ), [Player Games] )
+		displayFolder: Players
+		lineageTag: 81df37ad-0018-4024-99cc-e2d09805b51a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure AST =
+			
+			DIVIDE ( CALCULATE ( SUM ( fact_player_season[ast] ), fact_player_season[scope] = "TEAM" ), [Player Games] )
+		displayFolder: Players
+		lineageTag: 5b4a91a3-4ec6-4170-8288-7eb12a08325c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure STL =
+			
+			DIVIDE ( CALCULATE ( SUM ( fact_player_season[stl] ), fact_player_season[scope] = "TEAM" ), [Player Games] )
+		displayFolder: Players
+		lineageTag: 2edc2d02-e6f6-4a0d-a48e-f8c14368fcd1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure BLK =
+			
+			DIVIDE ( CALCULATE ( SUM ( fact_player_season[blk] ), fact_player_season[scope] = "TEAM" ), [Player Games] )
+		displayFolder: Players
+		lineageTag: 856aed7f-1b46-434b-932a-1ba680fab04b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 3PM =
+			
+			DIVIDE ( CALCULATE ( SUM ( fact_player_season[fg3] ), fact_player_season[scope] = "TEAM" ), [Player Games] )
+		displayFolder: Players
+		lineageTag: e27a76fe-5c38-4433-a889-824d849f1876
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Leader Value' =
+			
+			SWITCH (
+			    SELECTEDVALUE ( 'Leader Metric'[Leader Metric Order] ),
+			    0, [PTS],
+			    1, [REB],
+			    2, [AST],
+			    3, [STL],
+			    4, [BLK],
+			    5, [3PM]
+			)
+		displayFolder: Players
+		lineageTag: 589ede22-94b0-4d7f-a08e-8bcb7f530980
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Awards List' =
+			
+			CONCATENATEX (
+			    fact_awards,
+			    fact_awards[Award Label],
+			    "  ,  ",
+			    fact_awards[Award Order], ASC
+			)
+		displayFolder: Players
+		lineageTag: b32a2d4a-213c-4faf-99ef-497ddcf5f9f7
+
+	measure 'Is Knicks Player' =
+			
+			IF (
+			    CALCULATE (
+			        COUNTROWS ( fact_player_season ),
+			        fact_player_season[team_id] = "NYK",
+			        REMOVEFILTERS ( dim_phase )
+			    ) > 0,
+			    1
+			)
+		formatString: 0
+		displayFolder: Players
+		lineageTag: 58eab6a0-bb02-4d1b-b215-5ce06f1871d5
+
+	measure 'Player Minutes' =
+			
+			CALCULATE ( SUM ( fact_player_season[mp] ), fact_player_season[scope] = "TEAM" )
+		formatString: 0
+		displayFolder: Players
+		lineageTag: 21711280-eec2-49af-a9b3-677f5b66a049
+
+	measure 'Total PTS' =
+			
+			CALCULATE ( SUM ( fact_player_season[pts] ), fact_player_season[scope] = "TEAM" )
+		formatString: 0
+		displayFolder: Players
+		lineageTag: 0097b068-b8f3-4774-a9c5-617fa50a2b2c
+
+	measure 'Total REB' = CALCULATE ( SUM ( fact_player_season[trb] ), fact_player_season[scope] = "TEAM" )
+		formatString: 0
+		displayFolder: Players
+		lineageTag: 0b892a68-69ff-486f-b29d-e0737d2991b4
+
+	measure 'Total AST' = CALCULATE ( SUM ( fact_player_season[ast] ), fact_player_season[scope] = "TEAM" )
+		formatString: 0
+		displayFolder: Players
+		lineageTag: e872113b-e416-43ef-86cc-a2d6990f69dc
+
+	measure 'Total BLK' = CALCULATE ( SUM ( fact_player_season[blk] ), fact_player_season[scope] = "TEAM" )
+		formatString: 0
+		displayFolder: Players
+		lineageTag: 91638297-137c-43da-966b-6ec05f6e3370
+
+	measure 'Total TOV' = CALCULATE ( SUM ( fact_player_season[tov] ), fact_player_season[scope] = "TEAM" )
+		formatString: 0
+		displayFolder: Players
+		lineageTag: 5177c3f7-8c34-4485-a92e-9c272e7fc02f
+
+	measure 'Total 3PM' = CALCULATE ( SUM ( fact_player_season[fg3] ), fact_player_season[scope] = "TEAM" )
+		formatString: 0
+		displayFolder: Players
+		lineageTag: 7d371789-ec6c-4fe7-a34d-0735135d2819
+
+	measure 'Total STL' = CALCULATE ( SUM ( fact_player_season[stl] ), fact_player_season[scope] = "TEAM" )
+		displayFolder: Players
+		lineageTag: 240a5bee-bf38-4352-ac37-0a3eac7a69e4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Jersey = CALCULATE ( MAX ( bridge_roster_season[number] ), bridge_roster_season[team_id] = "NYK" )
+		formatString: 0
+		displayFolder: Players
+		lineageTag: 20315d1b-2ea2-4a1b-b524-e7008a097fbc
+
+	measure Position = CALCULATE ( MAX ( bridge_roster_season[pos] ), bridge_roster_season[team_id] = "NYK" )
+		displayFolder: Players
+		lineageTag: d94cd13c-6c60-446f-8fba-b70c13d078f3
+
+	measure 'Games Started' = CALCULATE ( SUM ( fact_player_season[games_started] ), fact_player_season[scope] = "TEAM" )
+		formatString: #,0
+		displayFolder: Players
+		lineageTag: 76136946-f97f-40b2-b26d-ecc52136c4c9
+
+	measure 'FG% P' = DIVIDE ( CALCULATE ( SUM ( fact_player_season[fg] ), fact_player_season[scope] = "TEAM" ), CALCULATE ( SUM ( fact_player_season[fga] ), fact_player_season[scope] = "TEAM" ) )
+		formatString: 0.0%
+		displayFolder: Players
+		lineageTag: fd36bd3b-189f-4b94-94b7-00ba692f787a
+
+	measure '3P% P' = DIVIDE ( CALCULATE ( SUM ( fact_player_season[fg3] ), fact_player_season[scope] = "TEAM" ), CALCULATE ( SUM ( fact_player_season[fg3a] ), fact_player_season[scope] = "TEAM" ) )
+		formatString: 0.0%
+		displayFolder: Players
+		lineageTag: 7d9240f1-3aa8-472f-a288-8df48cbd0c5f
+
+	measure 'FT% P' = DIVIDE ( CALCULATE ( SUM ( fact_player_season[ft] ), fact_player_season[scope] = "TEAM" ), CALCULATE ( SUM ( fact_player_season[fta] ), fact_player_season[scope] = "TEAM" ) )
+		formatString: 0.0%
+		displayFolder: Players
+		lineageTag: 8116652f-13af-4e8c-9174-a30b7f5d6fb7
+
+	measure 'Plus Minus' = CALCULATE ( SUM ( fact_player_game[plus_minus] ), fact_player_game[team_id] = "NYK" )
+		formatString: +0;-0;0
+		displayFolder: Players
+		lineageTag: 0f1181fd-d443-4520-b27a-0416acccfba2
+
+	measure 'Game PTS' = CALCULATE ( SUM ( fact_player_game[pts] ), fact_player_game[team_id] = "NYK" )
+		formatString: #,0
+		displayFolder: Players
+		lineageTag: 942e715b-84d9-4cfb-b508-2a346a2dc71d
+
+	measure 'Players Used' = CALCULATE ( DISTINCTCOUNT ( fact_player_season[player_id] ), fact_player_season[team_id] = "NYK", fact_player_season[scope] = "TEAM" )
+		formatString: 0
+		displayFolder: Players
+		lineageTag: ccd86893-492c-4dce-8843-583dd245f671
+
+	measure 'Avg Age' = CALCULATE ( AVERAGE ( fact_player_season[age] ), fact_player_season[team_id] = "NYK", fact_player_season[scope] = "TEAM" )
+		formatString: 0.0
+		displayFolder: Players
+		lineageTag: 2566d599-7caf-4bf4-9e01-cac0d84f78f1
+
+	measure 'Avg Experience' = CALCULATE ( AVERAGE ( bridge_roster_season[years_experience] ), bridge_roster_season[team_id] = "NYK" )
+		formatString: 0.0
+		displayFolder: Players
+		lineageTag: d5409448-4d16-4bd1-a88f-5ff33aaf1602
+
+	measure Rookies = CALCULATE ( COUNTROWS ( bridge_roster_season ), bridge_roster_season[team_id] = "NYK", bridge_roster_season[years_experience] = 0 )
+		formatString: 0
+		displayFolder: Players
+		lineageTag: fc1f5da7-f616-446a-8d1b-4d55713a4c72
+
+	measure Salary = CALCULATE ( SUM ( fact_salary_player_season[salary_usd] ), fact_salary_player_season[team_id] = "NYK" )
+		formatString: $#,0
+		displayFolder: Payroll
+		lineageTag: ba0a469c-62d4-478f-84f6-c9a48280dc18
+
+	measure '% of Cap' = DIVIDE ( [Salary], MAX ( fact_cap_rules[salary_cap_usd] ) )
+		formatString: 0.0%
+		displayFolder: Payroll
+		lineageTag: d975e258-243b-4c10-a141-15291e440ab1
+
+	measure 'Profile Name' = SELECTEDVALUE ( dim_player[player_name], "Select a player" )
+		displayFolder: Profile
+		lineageTag: f66f96b5-e2a3-477b-a4e1-cbed4da25921
+
+	measure 'Age at Cutoff' =
+			
+			VAR _birth = CALCULATE ( MAX ( bridge_roster_season[birth_date] ), bridge_roster_season[team_id] = "NYK" )
+			VAR _cutoff = MAX ( dim_season[retrospective_cutoff] )
+			RETURN IF ( NOT ISBLANK ( _birth ), INT ( YEARFRAC ( _birth, _cutoff ) ) )
+		formatString: 0
+		displayFolder: Profile
+		lineageTag: d122cb17-b024-45b7-be6f-3e8a093649e5
+
+	measure 'Height cm' = CALCULATE ( MAX ( bridge_roster_season[height_cm] ), bridge_roster_season[team_id] = "NYK" )
+		formatString: 0
+		displayFolder: Profile
+		lineageTag: a75a6363-58f3-4c8c-98ed-a9f4e958b3e4
+
+	measure 'Weight kg' = CALCULATE ( MAX ( bridge_roster_season[weight_kg] ), bridge_roster_season[team_id] = "NYK" )
+		formatString: 0
+		displayFolder: Profile
+		lineageTag: bb99b123-e429-4673-8605-005fe6de2ddf
+
+	measure 'Contract Type' =
+			
+			VAR _t = CALCULATE ( MAX ( fact_salary_player_season[contract_type] ), fact_salary_player_season[team_id] = "NYK" )
+			RETURN
+			    SWITCH ( _t,
+			        "STANDARD", "Standard",
+			        "TWO_WAY", "Two way",
+			        "REST_OF_SEASON", "Rest of season",
+			        "ROOKIE_SCALE", "Rookie scale",
+			        "TEN_DAY", "Ten day",
+			        _t
+			    )
+		displayFolder: Profile
+		lineageTag: c421cb58-690f-4325-bac5-f563f1b5532a
+
+	measure 'Game MIN' = CALCULATE ( SUM ( fact_player_game[minutes_num] ), fact_player_game[team_id] = "NYK" )
+		formatString: 0.0
+		displayFolder: Profile
+		lineageTag: a426a580-f871-4be0-938c-b06616d898af
+
+	measure Absences = CALCULATE ( COUNTROWS ( fact_player_game ), fact_player_game[did_not_play] = 1, fact_player_game[team_id] = "NYK" )
+		formatString: 0
+		displayFolder: Profile
+		lineageTag: 9a732aa6-7675-4bab-b03a-27d47ca47ad3
+
+	measure 'Adv Value' =
+			
+			SWITCH ( SELECTEDVALUE ( 'Profile Stats'[Stat] ),
+			    "PER",  AVERAGE ( fact_knicks_player_advanced[per] ),
+			    "TS%",  AVERAGE ( fact_knicks_player_advanced[ts_pct] ),
+			    "USG%", DIVIDE ( AVERAGE ( fact_knicks_player_advanced[usg_pct] ), 100 ),
+			    "WS",   SUM ( fact_knicks_player_advanced[ws] ),
+			    "BPM",  AVERAGE ( fact_knicks_player_advanced[bpm] )
+			)
+		isHidden
+		displayFolder: Profile
+		lineageTag: 944853bd-f1f4-4f03-b774-d6ba4a6242db
+
+	measure 'Bio Jersey' = VAR _n = [Jersey] RETURN IF ( NOT ISBLANK ( _n ), "#" & _n )
+		displayFolder: Profile
+		lineageTag: 23a59e95-9115-4a16-963c-3896aedfdc47
+
+	measure 'Bio Height' = VAR _h = [Height cm] RETURN IF ( NOT ISBLANK ( _h ), FORMAT ( _h, "0" ) & " cm" )
+		displayFolder: Profile
+		lineageTag: 5db4ac45-f74b-4bf2-af7f-7249bb454910
+
+	measure 'Bio Weight' = VAR _w = [Weight kg] RETURN IF ( NOT ISBLANK ( _w ), FORMAT ( _w, "0" ) & " kg" )
+		displayFolder: Profile
+		lineageTag: 849158e8-7363-46d4-a4b6-05a9a3effc02
+
+	measure 'Bio Experience' =
+			
+			VAR _y = CALCULATE ( MAX ( bridge_roster_season[years_experience] ), bridge_roster_season[team_id] = "NYK" )
+			RETURN
+			    SWITCH ( TRUE (),
+			        ISBLANK ( _y ), BLANK (),
+			        _y = 0, "Rookie",
+			        _y = 1, "1 yr",
+			        _y & " yrs"
+			    )
+		displayFolder: Profile
+		lineageTag: be5dfaad-377b-49e1-bfcb-0b3c2495f04b
+
+	measure 'Adv PER' = AVERAGE ( fact_knicks_player_advanced[per] )
+		formatString: 0.0
+		displayFolder: Profile
+		lineageTag: ae1487cf-922f-4838-a74d-00418f94102b
+
+	measure 'Adv TS%' = AVERAGE ( fact_knicks_player_advanced[ts_pct] )
+		formatString: 0.0%
+		displayFolder: Profile
+		lineageTag: fa7a02c2-44dd-4501-b4a8-18054c798c4a
+
+	measure 'Adv USG%' = DIVIDE ( AVERAGE ( fact_knicks_player_advanced[usg_pct] ), 100 )
+		formatString: 0.0%
+		displayFolder: Profile
+		lineageTag: 25d186a4-6dfe-4c8e-b7f9-04dbf59b306e
+
+	measure 'Adv WS' = SUM ( fact_knicks_player_advanced[ws] )
+		formatString: 0.0
+		displayFolder: Profile
+		lineageTag: 33510b10-1039-41c3-9d54-e88ed75af5a2
+
+	measure 'Adv BPM' = AVERAGE ( fact_knicks_player_advanced[bpm] )
+		formatString: +0.0;-0.0;0.0
+		displayFolder: Profile
+		lineageTag: ab9f6ad4-a332-4844-b8c2-9f3f5dacc1b9
+
+	measure Availability = DIVIDE ( [Games Played Log], [Games] )
+		formatString: 0%
+		displayFolder: Profile
+		lineageTag: 5ae160d6-38fc-4c98-b738-0adca1bd457f
+
+	measure 'Injury Reports' = COUNTROWS ( fact_injury )
+		formatString: 0
+		displayFolder: Health
+		lineageTag: e848af64-91b4-491d-ad28-c945398e9051
+
+	measure 'Profile Roster Pct' =
+			
+			VAR _me = [Adv Value]
+			VAR _pool =
+			    CALCULATETABLE (
+			        FILTER (
+			            ADDCOLUMNS (
+			                VALUES ( dim_player[player_id] ),
+			                "@v", [Adv Value],
+			                "@m", CALCULATE ( SUM ( fact_player_season[mp] ), fact_player_season[scope] = "TEAM" )
+			            ),
+			            NOT ISBLANK ( [@v] ) && [@m] >= 200
+			        ),
+			        REMOVEFILTERS ( dim_player )
+			    )
+			VAR _n = COUNTROWS ( _pool )
+			VAR _below = COUNTROWS ( FILTER ( _pool, [@v] < _me ) ) + 0
+			RETURN IF ( NOT ISBLANK ( _me ) && _n > 1, MIN ( DIVIDE ( _below, _n - 1 ), 1 ) )
+		formatString: 0%
+		displayFolder: Profile
+		lineageTag: 2b80fd82-53ef-4e73-a007-a020202869fe
+
+	measure 'Games Played Log' = CALCULATE ( COUNTROWS ( fact_player_game ), fact_player_game[did_not_play] = 0, fact_player_game[team_id] = "NYK" )
+		formatString: 0
+		displayFolder: Profile
+		lineageTag: db402adb-9e2d-4b7c-838b-af4893356273
+
+	measure 'Avg PTS Log' = DIVIDE ( [Game PTS], [Games Played Log] )
+		formatString: 0.0
+		displayFolder: Profile
+		lineageTag: c764d6c3-4606-4c12-8794-b48d9f45e308
+
+	measure 'Avg MIN Log' = DIVIDE ( [Game MIN], [Games Played Log] )
+		formatString: 0.0
+		displayFolder: Profile
+		lineageTag: fc60db63-a810-4c1e-a223-5e6e3397bf08
+
+	measure 'Games Missed' =
+			
+			VAR _m = [Games] - [Games Played Log]
+			RETURN IF ( _m > 0, _m )
+		formatString: 0
+		displayFolder: Profile
+		lineageTag: 0d758b19-f3aa-4e90-b90f-cff7ab9f7d2e
+
+	measure 'Absence Games' =
+			
+			VAR _r = SELECTEDVALUE ( 'Absence Reason'[Reason] )
+			VAR _listed = CALCULATE ( [Absences], TREATAS ( { _r }, fact_player_game[absence_type] ) )
+			VAR _unlisted = [Games Missed] - [Absences]
+			RETURN
+			    SWITCH ( TRUE (),
+			        NOT HASONEVALUE ( 'Absence Reason'[Reason] ), [Games Missed],
+			        _r = "Inactive", IF ( _unlisted > 0, _unlisted ),
+			        _listed
+			    )
+		formatString: 0
+		displayFolder: Profile
+		lineageTag: d032d53c-a6fc-4cb1-b416-de3ee41db94f
+
+	measure 'Missed Games' =
+			
+			VAR _box =
+			    SELECTCOLUMNS (
+			        CALCULATETABLE ( fact_player_game, fact_player_game[did_not_play] = 1, fact_player_game[team_id] = "NYK" ),
+			        "g", fact_player_game[game_id], "p", fact_player_game[player_id]
+			    )
+			VAR _rep =
+			    SELECTCOLUMNS (
+			        CALCULATETABLE ( fact_injury, fact_injury[status] = "Out" ),
+			        "g", fact_injury[game_id], "p", fact_injury[player_id]
+			    )
+			VAR _n = COUNTROWS ( DISTINCT ( UNION ( _box, _rep ) ) )
+			RETURN IF ( _n > 0, _n )
+		formatString: 0
+		displayFolder: Health
+		lineageTag: 0813354c-5fd2-4823-b88e-a1747c0e82df
+
+	measure 'Missed to Injury' =
+			
+			VAR _box =
+			    SELECTCOLUMNS (
+			        CALCULATETABLE ( fact_player_game, fact_player_game[did_not_play] = 1, fact_player_game[team_id] = "NYK", fact_player_game[absence_type] = "Injury" ),
+			        "g", fact_player_game[game_id], "p", fact_player_game[player_id]
+			    )
+			VAR _rep =
+			    SELECTCOLUMNS (
+			        CALCULATETABLE ( fact_injury, fact_injury[status] = "Out", fact_injury[category] = "Injury" ),
+			        "g", fact_injury[game_id], "p", fact_injury[player_id]
+			    )
+			VAR _n = COUNTROWS ( DISTINCT ( UNION ( _box, _rep ) ) )
+			RETURN IF ( _n > 0, _n )
+		formatString: 0
+		displayFolder: Health
+		lineageTag: e4c37823-e34e-4734-95c8-14788c536de6
+
+	measure 'Players Injured' =
+			
+			CALCULATE ( DISTINCTCOUNT ( fact_injury[player_id] ), fact_injury[category] = "Injury" )
+		formatString: 0
+		displayFolder: Health
+		lineageTag: e462f28a-56b1-4ec6-9d2c-2476aacf0e50
+
+	measure 'Top Body Part' =
+			
+			VAR _t =
+			    TOPN ( 1,
+			        FILTER ( ADDCOLUMNS ( VALUES ( fact_injury[body_part] ), "@n", [Injury Reports] ), NOT ISBLANK ( fact_injury[body_part] ) ),
+			        [@n], DESC )
+			RETURN MAXX ( _t, fact_injury[body_part] )
+		displayFolder: Health
+		lineageTag: cdde77e7-d37f-4771-ba3a-bfe441774ade
+
+	measure 'Minutes Title' =
+			
+			VAR _p = SELECTEDVALUE ( dim_player[player_name] )
+			RETURN IF ( ISBLANK ( _p ), "Minutes by game", _p & " minutes by game" )
+		displayFolder: Health
+		lineageTag: 149a4408-4a0c-4298-94a5-eaeb5f87eff9
+
+	measure 'First Report' =
+			
+			MIN ( fact_injury[report_date] )
+		formatString: dd/mm/yyyy
+		displayFolder: Health
+		lineageTag: 314bfde9-d11d-4d43-99ab-1471e443489b
+
+	measure 'Last Report' =
+			
+			MAX ( fact_injury[report_date] )
+		formatString: dd/mm/yyyy
+		displayFolder: Health
+		lineageTag: 8d910d4b-784c-4211-b598-4aecab75b8da
+
+	measure 'Injury Days' =
+			
+			VAR _f = [First Report]
+			VAR _l = [Last Report]
+			RETURN IF ( NOT ISBLANK ( _f ), DATEDIFF ( _f, _l, DAY ) )
+		formatString: 0
+		displayFolder: Health
+		lineageTag: 9d83fa7c-c67d-4412-914a-7f8ad83a1850
+
+	measure 'Games Out' =
+			
+			VAR _r = COUNTROWS ( fact_injury )
+			RETURN IF ( _r > 0, CALCULATE ( COUNTROWS ( fact_injury ), fact_injury[status] = "Out" ) + 0 )
+		formatString: 0
+		displayFolder: Health
+		lineageTag: 6048b950-7990-4009-9739-5069c10caad0
+
+	measure 'Injuries Count' =
+			
+			COUNTROWS ( FILTER ( VALUES ( fact_injury[Injury Label] ), fact_injury[Injury Label] <> "" ) )
+		formatString: 0
+		displayFolder: Health
+		lineageTag: 8dec73fe-edc4-4c54-9afc-49f604914538
+
+	measure 'Cumulative Wins' =
+			
+			VAR _n = MAX ( dim_game[Knicks Game No] )
+			RETURN
+			    IF (
+			        NOT ISBLANK ( _n ),
+			        CALCULATE ( [Wins], dim_game[Knicks Game No] <= _n, dim_game[is_knicks_game] = 1 )
+			    )
+		formatString: 0
+		displayFolder: Coaching
+		lineageTag: 6b219e08-142a-432b-9c9d-c81bcc02541a
+
+	measure 'Head Coach' =
+			
+			SELECTEDVALUE ( fact_coach_season[coach_name], "Two coaches" )
+		displayFolder: Coaching
+		lineageTag: 1dcc51bf-f9e1-4374-97b4-5cda0a858bad
+
+	measure 'Team W' =
+			
+			SUM ( fact_team_season[wins] )
+		formatString: 0
+		displayFolder: League
+		lineageTag: f3a6cb9f-5b76-44d3-b5df-5de2a44de556
+
+	measure 'Team L' =
+			
+			SUM ( fact_team_season[losses] )
+		formatString: 0
+		displayFolder: League
+		lineageTag: 20ba24cd-7616-418c-9b9e-513b9f22a92a
+
+	measure 'Team Win %' =
+			
+			DIVIDE ( [Team W], [Team W] + [Team L] )
+		formatString: 0.000
+		displayFolder: League
+		lineageTag: dee92f7e-e1ac-455b-8f73-d5d3232d8729
+
+	measure 'Conf Rank' =
+			
+			MIN ( fact_team_season[conference_rank] )
+		formatString: 0
+		displayFolder: League
+		lineageTag: 09576923-458c-48c3-810f-a016caee7f04
+
+	measure 'Off Rating' =
+			
+			AVERAGE ( fact_team_season[off_rtg] )
+		formatString: 0.0
+		displayFolder: League
+		lineageTag: 2602a5e7-73b8-4fa6-a3d2-30e3093cb361
+
+	measure 'Def Rating' =
+			
+			AVERAGE ( fact_team_season[def_rtg] )
+		formatString: 0.0
+		displayFolder: League
+		lineageTag: 8b289183-1da9-4b17-9abc-b97e309a918e
+
+	measure 'Is NYK' =
+			
+			IF ( SELECTEDVALUE ( dim_team[team_id] ) = "NYK", 1, 0 )
+		formatString: 0
+		displayFolder: League
+		lineageTag: 3305cbc0-556c-435f-9af8-479831f92007
+
+	measure 'Fin Amount' =
+			
+			SUM ( fact_financial_statement[amount_usd] )
+		formatString: $#,0
+		displayFolder: Finance
+		lineageTag: 3a296ab5-bf50-455e-ad12-19a287b71a47
+
+	measure Revenue =
+			
+			CALCULATE ( [Fin Amount], fact_financial_statement[account_id] = "revenue" )
+		formatString: $#,0
+		displayFolder: Finance
+		lineageTag: bc3da758-350c-4714-b6d7-945f97b71943
+
+	measure 'Operating Income' =
+			
+			CALCULATE ( [Fin Amount], fact_financial_statement[account_id] = "operating_income" )
+		formatString: $#,0
+		displayFolder: Finance
+		lineageTag: 7e4ece2d-102a-4f16-af5b-f1fc9c89bda8
+
+	measure 'Net Income' =
+			
+			CALCULATE ( [Fin Amount], fact_financial_statement[account_id] = "net_income" )
+		formatString: $#,0
+		displayFolder: Finance
+		lineageTag: 41f03a95-993c-4d7f-bc73-436d9e0352bb
+
+	measure 'Waterfall Value' =
+			
+			VAR _a = SELECTEDVALUE ( dim_account[account_id] )
+			RETURN IF ( _a = "revenue", [Fin Amount], - [Fin Amount] )
+		formatString: $#,0
+		displayFolder: Finance
+		lineageTag: b6c9d5bd-a5b5-4a4b-bfda-f8b4efe43d9a
+
+	measure 'Committed Salary' =
+			
+			[Salary]
+		formatString: $#,0
+		displayFolder: Payroll
+		lineageTag: 2fb9fea8-2be7-416a-8e14-328beb9e3ac2
+
+	measure 'Salary Cap' =
+			
+			MAX ( fact_cap_rules[salary_cap_usd] )
+		formatString: $#,0
+		displayFolder: Payroll
+		lineageTag: ce7d544e-813a-4ede-9893-6f6f2890d2b3
+
+	measure 'Tax Line' =
+			
+			MAX ( fact_cap_rules[tax_threshold_usd] )
+		formatString: $#,0
+		displayFolder: Payroll
+		lineageTag: 8ea431ea-e804-4178-8f6a-f1192575cce4
+
+	measure 'First Apron' =
+			
+			MAX ( fact_cap_rules[first_apron_usd] )
+		formatString: $#,0
+		displayFolder: Payroll
+		lineageTag: dafdca6e-f757-42d8-a092-dab1392017d6
+
+	measure 'Second Apron' =
+			
+			MAX ( fact_cap_rules[second_apron_usd] )
+		formatString: $#,0
+		displayFolder: Payroll
+		lineageTag: df2024f4-a817-4c36-b3fa-5f8a3c7712fd
+
+	measure 'Room to Tax' =
+			
+			[Tax Line] - [Committed Salary]
+		formatString: $#,0
+		displayFolder: Payroll
+		lineageTag: 211714c2-15e9-4cea-9bcd-553fc408eef2
+
+	measure 'Room to Second Apron' =
+			
+			[Second Apron] - [Committed Salary]
+		formatString: $#,0
+		displayFolder: Payroll
+		lineageTag: 77721443-af18-4913-b534-b9b45ef576ee
+
+	measure 'Cost per Win Share' =
+			
+			VAR _ws = [Adv WS]
+			RETURN IF ( _ws >= 1, DIVIDE ( [Salary], _ws ) )
+		formatString: $#,0
+		displayFolder: Payroll
+		lineageTag: 720eef07-48e0-4c34-9e95-a2470439965d
+
+	measure 'Avg Attendance' =
+			
+			AVERAGE ( fact_team_season[attendance_per_g] )
+		formatString: #,0
+		displayFolder: Arena
+		lineageTag: 11a40aac-50a6-4cfe-b55c-aee189557532
+
+	measure 'NYK Avg Attendance' =
+			
+			CALCULATE ( [Avg Attendance], fact_team_season[team_id] = "NYK" )
+		formatString: #,0
+		displayFolder: Arena
+		lineageTag: 2c24eac5-4526-4eae-ae18-7fa2307a53f4
+
+	measure 'NYK Total Attendance' =
+			
+			CALCULATE ( SUM ( fact_team_season[attendance] ), fact_team_season[team_id] = "NYK" )
+		formatString: #,0
+		displayFolder: Arena
+		lineageTag: a2fdc9a9-268f-4019-b1a2-2f9826e7094a
+
+	measure 'Home Attendance' =
+			
+			CALCULATE ( SUM ( dim_game[attendance] ), dim_game[home_team_id] = "NYK" )
+		formatString: #,0
+		displayFolder: Arena
+		lineageTag: 56270f38-4f52-4440-9c05-397916a6453a
+
+	measure 'Home Games' =
+			
+			CALCULATE ( COUNTROWS ( dim_game ), dim_game[home_team_id] = "NYK", NOT ISBLANK ( dim_game[attendance] ) )
+		formatString: 0
+		displayFolder: Arena
+		lineageTag: 5d46c5c5-e399-4780-b09b-f59ef4dadd41
+
+	measure 'Deal Amount' =
+			
+			IF ( MAX ( fact_commercial_agreement[amount_status] ) = "NOT_DISCLOSED", "Not disclosed", MAX ( fact_commercial_agreement[annual_amount_usd] ) )
+		displayFolder: Arena
+		lineageTag: 584c6f90-2fec-43cd-b7de-189fe1dc9438
+
+	measure 'Record REG' =
+			
+			CALCULATE ( [Record], dim_game[phase_id] = "REG" )
+		displayFolder: Home
+		lineageTag: 02fcbc0e-ebed-4583-8d46-b4a4a82bbb35
+
+	measure 'Record PO' =
+			
+			CALCULATE ( [Record], dim_game[phase_id] = "PO" )
+		displayFolder: Home
+		lineageTag: 5aa00805-ff0a-41df-86bb-b85be3134662
+
+	measure 'Title Label' =
+			
+			IF ( MAX ( dim_season[nba_champion_team_id] ) = "NYK", "Champions", "No" )
+		displayFolder: Home
+		lineageTag: 6aaaaedc-5dbf-4ae8-af8c-af35824364b3
+
+	measure 'Cup Label' =
+			
+			IF ( MAX ( dim_season[cup_champion_team_id] ) = "NYK", "Winners", "No" )
+		displayFolder: Home
+		lineageTag: 0b8b7500-1843-4d01-bbcb-0fd84b3af96b
+
+	measure 'Series Result' =
+			
+			VAR _s = FILTER ( fact_playoff_series, fact_playoff_series[team_a_id] = "NYK" || fact_playoff_series[team_b_id] = "NYK" )
+			VAR _a = MAXX ( _s, fact_playoff_series[team_a_id] )
+			VAR _b = MAXX ( _s, fact_playoff_series[team_b_id] )
+			VAR _wa = MAXX ( _s, fact_playoff_series[wins_a] )
+			VAR _wb = MAXX ( _s, fact_playoff_series[wins_b] )
+			RETURN IF ( NOT ISEMPTY ( _s ), IF ( _a = "NYK", _wa & "-" & _wb & " vs " & _b, _wb & "-" & _wa & " vs " & _a ) )
+		displayFolder: Home
+		lineageTag: 141030e9-c2e7-44f4-8d07-8e134fa2bf8f
+
+	measure 'Is NYK Series' =
+			
+			IF ( NOT ISEMPTY ( FILTER ( fact_playoff_series, fact_playoff_series[team_a_id] = "NYK" || fact_playoff_series[team_b_id] = "NYK" ) ), 1, 0 )
+		formatString: 0
+		displayFolder: Home
+		lineageTag: fa6b42e9-e2f0-4be8-aec7-6ca4922ad2d4
+
+	measure 'Revenue Card' =
+			
+			FORMAT ( [Revenue], "$#,0,," ) & "M"
+		displayFolder: Finance
+		lineageTag: c309b750-6b34-4826-8fc6-4fb137a007fd
+
+	measure 'Operating Income Card' =
+			
+			FORMAT ( [Operating Income], "$#,0,," ) & "M"
+		displayFolder: Finance
+		lineageTag: 7692639f-c96b-4703-b792-06234cb17bd7
+
+	measure 'Net Income Card' =
+			
+			FORMAT ( [Net Income], "$#,0,," ) & "M"
+		displayFolder: Finance
+		lineageTag: 0705ba89-5506-4990-8506-43d7d6a86943
+
+	measure 'Cap Line Value' =
+			
+			SWITCH (
+			    SELECTEDVALUE ( 'Cap Line'[Line] ),
+			    "Salary cap", [Salary Cap],
+			    "Tax line", [Tax Line],
+			    "First apron", [First Apron],
+			    "Second apron", [Second Apron],
+			    "Knicks payroll", [Committed Salary]
+			)
+		formatString: $#,0
+		displayFolder: Payroll
+		lineageTag: 574a222f-ee66-44c8-a74b-eccddd76f390
+
+	partition _Measures = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

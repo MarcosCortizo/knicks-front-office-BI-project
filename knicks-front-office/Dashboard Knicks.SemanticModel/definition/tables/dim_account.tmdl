@@ -1,0 +1,74 @@
+table dim_account
+	lineageTag: 34af8436-e5c5-4a99-9942-c73a4f238733
+
+	column account_id
+		dataType: string
+		lineageTag: 9d2ee29a-3d02-4430-885d-27336731389c
+		summarizeBy: none
+		sourceColumn: account_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column account_label
+		dataType: string
+		lineageTag: 76c43dc1-591a-486f-883c-dd8f7485d8df
+		summarizeBy: none
+		sourceColumn: account_label
+		sortByColumn: line_order
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column line_order
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f83d2564-619e-40f1-91fa-7d0471500813
+		summarizeBy: none
+		sourceColumn: line_order
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Account =
+			SWITCH (
+			    dim_account[account_id],
+			    "revenue", "Revenue",
+			    "direct_operating_expense", "Team and arena costs",
+			    "sga", "Overheads",
+			    "depreciation", "Depreciation",
+			    "restructuring", "Restructuring",
+			    "total_assets", "Assets",
+			    "total_liabilities", "Liabilities",
+			    "equity", "Equity",
+			    "operating_cashflow", "Operations",
+			    "investing_cashflow", "Investment",
+			    "financing_cashflow", "Financing",
+			    dim_account[account_label]
+			)
+		lineageTag: 00cc467d-d553-43b0-bb8d-d86617444d1c
+		summarizeBy: none
+		sortByColumn: line_order
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_account = m
+		mode: import
+		queryGroup: Finance
+		source =
+				let
+				    Source = fact_financial_statement,
+				    #"Keep account columns" = Table.SelectColumns(Source,{"account_id", "account_label"}),
+				    #"One row per account" = Table.Buffer(Table.Distinct(#"Keep account columns", {"account_id"})),
+				    #"Add accounting order" = Table.AddIndexColumn(#"One row per account", "line_order", 1, 1, Int64.Type)
+				in
+				    #"Add accounting order"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

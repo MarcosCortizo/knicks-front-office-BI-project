@@ -1,0 +1,8 @@
+expression CsvFolder = "C:\Users\marco\Documents\Escritorio\knicks-front-office\knicks_csv\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 8c99a32a-88bf-4927-81c5-ac3259861b8a
+	queryGroup: Parameters
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

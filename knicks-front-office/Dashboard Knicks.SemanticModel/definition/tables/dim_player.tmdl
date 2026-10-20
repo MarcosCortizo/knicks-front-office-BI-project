@@ -1,0 +1,35 @@
+table dim_player
+	lineageTag: 379253c9-bbad-4675-bca0-6cc3c12e1f48
+
+	column player_id
+		dataType: string
+		lineageTag: 1be35a28-d4e4-4df1-87cb-1116706af8d5
+		summarizeBy: none
+		sourceColumn: player_id
+
+		annotation SummarizationSetBy = User
+
+	column player_name
+		dataType: string
+		lineageTag: da1e95d0-4160-45c4-8dc2-63ff951d0b70
+		summarizeBy: none
+		sourceColumn: player_name
+
+		annotation SummarizationSetBy = User
+
+	partition dim_player = m
+		mode: import
+		queryGroup: Dimensions
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "dim_player.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    SelectedColumns = Table.SelectColumns(PromotedHeaders, {"player_id", "player_name"}),
+				    ChangedTypes = Table.TransformColumnTypes(SelectedColumns, {{"player_id", type text}, {"player_name", type text}}, "en-US")
+				in
+				    ChangedTypes
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

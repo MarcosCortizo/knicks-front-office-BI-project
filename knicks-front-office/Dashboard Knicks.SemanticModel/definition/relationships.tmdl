@@ -1,0 +1,154 @@
+relationship e56229df-9cb8-4864-afa0-e554e2abe8a6
+	fromColumn: fact_team_season.season_id
+	toColumn: dim_season.season_id
+
+relationship 333ccc9e-3312-4878-b228-d5ddba34622f
+	fromColumn: fact_team_season.phase_id
+	toColumn: dim_phase.phase_id
+
+relationship 8e021365-78ff-dda6-2145-021f3f0daadc
+	fromColumn: fact_player_season.season_id
+	toColumn: dim_season.season_id
+
+relationship 40b5863c-fe4d-ec14-91e2-a69ef8c94f9e
+	fromColumn: fact_player_season.phase_id
+	toColumn: dim_phase.phase_id
+
+relationship 9a945783-076a-42c5-b9e7-683e48bfb7a4
+	fromColumn: fact_knicks_player_advanced.season_id
+	toColumn: dim_season.season_id
+
+relationship fd7321c9-0d70-4b29-a89b-594f07730869
+	fromColumn: fact_knicks_player_advanced.phase_id
+	toColumn: dim_phase.phase_id
+
+relationship 5877c9fc-30b0-429b-bfdc-d5a398a33c5a
+	fromColumn: fact_playoff_series.season_id
+	toColumn: dim_season.season_id
+
+relationship 68749683-ad2f-473c-96fa-bcddae825173
+	fromColumn: fact_playoff_series.phase_id
+	toColumn: dim_phase.phase_id
+
+relationship 9f470553-21cc-9427-faca-2534ae919559
+	fromColumn: bridge_roster_season.season_id
+	toColumn: dim_season.season_id
+
+relationship 1edd00ee-83e5-bb5f-1b0e-e9869421273a
+	fromColumn: fact_salary_player_season.season_id
+	toColumn: dim_season.season_id
+
+relationship eebd6149-84a6-4f30-9c98-1525191d239f
+	fromColumn: fact_coach_season.season_id
+	toColumn: dim_season.season_id
+
+relationship ad715919-3033-457e-9dec-4d5362a83e47
+	fromColumn: fact_coaching_staff.season_id
+	toColumn: dim_season.season_id
+
+relationship ace56e52-a2e1-4732-8fee-f7c0def73287
+	fromColumn: fact_cap_rules.season_id
+	toColumn: dim_season.season_id
+
+relationship 69b5e9c1-9212-4fe0-aff1-3836f1d90c56
+	fromColumn: fact_team_season.team_id
+	toColumn: dim_team.team_id
+
+relationship 7ae9b090-de80-5429-8e7c-2cb3c9597bee
+	fromColumn: fact_player_season.team_id
+	toColumn: dim_team.team_id
+
+relationship 443ec833-6fc2-4c48-89e1-bb84621e4d6c
+	fromColumn: fact_knicks_player_advanced.team_id
+	toColumn: dim_team.team_id
+
+relationship 32bf18fd-76b8-a350-e9cd-59dbd662f8ed
+	fromColumn: bridge_roster_season.team_id
+	toColumn: dim_team.team_id
+
+relationship 01a0050b-f3b1-36c6-e059-9652f8b5ec17
+	fromColumn: fact_salary_player_season.team_id
+	toColumn: dim_team.team_id
+
+relationship 103085a0-dfe1-4e2e-9ef7-d7239135f48f
+	fromColumn: fact_coach_season.team_id
+	toColumn: dim_team.team_id
+
+relationship c8880af4-e521-49d0-b75b-01ec11b2fb53
+	fromColumn: fact_coaching_staff.team_id
+	toColumn: dim_team.team_id
+
+relationship a8daa041-7887-430b-9c6f-82c7a7ba3415
+	fromColumn: fact_player_game.team_id
+	toColumn: dim_team.team_id
+
+relationship 826da633-be00-9c76-ce8a-84c8c0c7e444
+	fromColumn: fact_player_season.player_id
+	toColumn: dim_player.player_id
+
+relationship fc501161-86f3-4afc-969a-acb31b7246d6
+	fromColumn: fact_knicks_player_advanced.player_id
+	toColumn: dim_player.player_id
+
+relationship 4f614104-5b38-3f4e-aa3a-0c1c69511234
+	fromColumn: bridge_roster_season.player_id
+	toColumn: dim_player.player_id
+
+relationship 61a20bec-addb-180f-1d7e-1b25bd4c9f7a
+	fromColumn: fact_salary_player_season.player_id
+	toColumn: dim_player.player_id
+
+relationship aacd9e45-447e-4ae2-97dd-9ab487496c63
+	fromColumn: fact_player_game.player_id
+	toColumn: dim_player.player_id
+
+relationship 2fcd2cf4-04f2-4595-ab3f-e7783b04a432
+	fromColumn: fact_injury.player_id
+	toColumn: dim_player.player_id
+
+relationship cb5fdcc3-f732-4932-8ec1-e4117c8b0c99
+	fromColumn: fact_player_game.game_id
+	toColumn: dim_game.game_id
+
+relationship ceced23e-7f97-4b7f-829c-12f10edf25cc
+	fromColumn: fact_injury.game_id
+	toColumn: dim_game.game_id
+
+relationship bf949e44-0733-4cb0-87c3-b4852cfc3ae7
+	fromColumn: dim_game.season_id
+	toColumn: dim_season.season_id
+
+relationship 17696729-c9a4-486f-b1d3-40d7acc58857
+	fromColumn: dim_game.phase_id
+	toColumn: dim_phase.phase_id
+
+relationship 3fb72812-9090-4c13-b3fc-175e6120903b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_game.game_date
+	toColumn: dim_date.date_id
+
+relationship 1bc36770-a8c2-4d5b-bae7-985711f58b03
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_commercial_agreement.announced_date
+	toColumn: dim_date.date_id
+
+relationship 19554043-f12f-43d6-967d-463000967f63
+	fromColumn: fact_financial_statement.fiscal_year
+	toColumn: dim_season.season_id
+
+relationship abf8cb58-84af-408f-b13a-a1aa91dcea6e
+	fromColumn: fact_awards.season_id
+	toColumn: dim_season.season_id
+
+relationship 4eb20aaa-2c12-f4d8-f35b-f43802260864
+	fromColumn: fact_awards.player_id
+	toColumn: dim_player.player_id
+
+relationship d7619817-0807-0d46-16fa-5187df0dfb7d
+	fromColumn: fact_financial_statement.account_id
+	toColumn: dim_account.account_id
+
+relationship 685471ca-6b2e-4b84-94e2-c3610e41fb3c
+	fromColumn: 'Trade Packages'.season_id
+	toColumn: dim_season.season_id
+

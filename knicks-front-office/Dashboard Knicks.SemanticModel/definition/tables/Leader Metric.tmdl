@@ -1,0 +1,52 @@
+table 'Leader Metric'
+	lineageTag: 5f5cf72e-5b0e-49fe-a543-0999f7143691
+
+	column 'Leader Metric'
+		lineageTag: eac5d3c3-47fd-4bdd-813c-7f50c55eb626
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Leader Metric Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Leader Metric Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Leader Metric Fields'
+		isHidden
+		lineageTag: f1cff7cd-2c1b-482e-b673-5298dbeb655f
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Leader Metric Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Leader Metric Order'
+		isHidden
+		formatString: 0
+		lineageTag: a2c0c285-c445-49e9-8f57-de85beb6c215
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Leader Metric' = calculated
+		mode: import
+		source =
+				{
+				    ("PTS", NAMEOF('_Measures'[PTS]), 0),
+				    ("REB", NAMEOF('_Measures'[REB]), 1),
+				    ("AST", NAMEOF('_Measures'[AST]), 2),
+				    ("STL", NAMEOF('_Measures'[STL]), 3),
+				    ("BLK", NAMEOF('_Measures'[BLK]), 4),
+				    ("3PM", NAMEOF('_Measures'[3PM]), 5)
+				}
+
+	annotation PBI_Id = 5b871378cd6146a0825c191b3e103a58
+

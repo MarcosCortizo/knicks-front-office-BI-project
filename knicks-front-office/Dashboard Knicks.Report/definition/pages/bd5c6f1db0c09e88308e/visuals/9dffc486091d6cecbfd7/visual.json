@@ -1,0 +1,164 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "9dffc486091d6cecbfd7",
+  "position": {
+    "x": 960,
+    "y": 140,
+    "z": 1030,
+    "height": 600,
+    "width": 936,
+    "tabOrder": 1030
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Notes",
+                    "textStyle": {
+                      "fontSize": "20pt",
+                      "color": "#ffffff",
+                      "fontFamily": "Segoe UI",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Data collected on 18 October 2026. Currency: USD.",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#ffffff",
+                      "fontFamily": "Segoe UI"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Season 2025 = 2024/25 and season 2026 = 2025/26.",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#ffffff",
+                      "fontFamily": "Segoe UI"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Financial figures are for MSG Sports group, which includes the Rangers.",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#ffffff",
+                      "fontFamily": "Segoe UI"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Committed salary adds every contract signed during the season. It is not the cap payroll.",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#ffffff",
+                      "fontFamily": "Segoe UI"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Injury reports were extracted automatically and carry no severity or return date.",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#ffffff",
+                      "fontFamily": "Segoe UI"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Commercial deal amounts are not disclosed.",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#ffffff",
+                      "fontFamily": "Segoe UI"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Independent work. Not official NBA or New York Knicks data.",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#ffffff",
+                      "fontFamily": "Segoe UI"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

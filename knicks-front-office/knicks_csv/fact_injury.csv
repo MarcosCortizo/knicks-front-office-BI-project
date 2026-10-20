@@ -1,0 +1,92 @@
+﻿game_id,player_id,report_date,status,category,body_side,body_part,injury_type,played_that_game,data_status
+202410220BOS,achiupr01,2024-10-22,Out,Injury,Left,Hamstring,Strain,,AUTO_EXTRACTED_TO_REVIEW
+202410220BOS,robinmi01,2024-10-22,Out,Injury,Left,Ankle,Post-surgery,,AUTO_EXTRACTED_TO_REVIEW
+202410280NYK,achiupr01,2024-10-28,Out,Injury,Left,Hamstring,Strain,,AUTO_EXTRACTED_TO_REVIEW
+202410280NYK,hartjo01,2024-10-28,Questionable,Injury,Right,Ankle,Impingement,1,AUTO_EXTRACTED_TO_REVIEW
+202410280NYK,mcbrimi01,2024-10-28,Probable,Injury,Left,Knee,Hyperextension,1,AUTO_EXTRACTED_TO_REVIEW
+202411010DET,achiupr01,2024-11-01,Out,Injury,Left,Hamstring,Strain,,AUTO_EXTRACTED_TO_REVIEW
+202411010DET,robinmi01,2024-11-01,Out,Injury,Left,Ankle,Post-surgery,,AUTO_EXTRACTED_TO_REVIEW
+202411010DET,townska01,2024-11-01,Questionable,Injury,Left,Wrist,Sprain,1,AUTO_EXTRACTED_TO_REVIEW
+202411230UTA,achiupr01,2024-11-23,Out,Injury,Left,Hamstring,Strain,,AUTO_EXTRACTED_TO_REVIEW
+202411230UTA,mcbrimi01,2024-11-23,Out,Injury,Left,Knee,Patellofemoral pain,,AUTO_EXTRACTED_TO_REVIEW
+202411230UTA,robinmi01,2024-11-23,Out,Injury,Left,Ankle,Post-surgery,,AUTO_EXTRACTED_TO_REVIEW
+202412090TOR,payneca01,2024-12-09,Questionable,Injury,Left,Elbow,Joint effusion,1,AUTO_EXTRACTED_TO_REVIEW
+202412090TOR,robinmi01,2024-12-09,Out,Injury,Left,Ankle,Post-surgery,,AUTO_EXTRACTED_TO_REVIEW
+202412090TOR,townska01,2024-12-09,Questionable,Injury,Right,Knee,Tendinopathy,1,AUTO_EXTRACTED_TO_REVIEW
+202412110NYK,hartjo01,2024-12-11,Available,Injury,Left,Ankle,Sprain,1,AUTO_EXTRACTED_TO_REVIEW
+202412110NYK,hukpoar01,2024-12-11,Out,Injury,Left,Ankle,Sprain,,AUTO_EXTRACTED_TO_REVIEW
+202412110NYK,robinmi01,2024-12-11,Out,Injury,Left,Ankle,Post-surgery,,AUTO_EXTRACTED_TO_REVIEW
+202412110NYK,townska01,2024-12-11,Available,Injury,Right,Knee,Tendinopathy,1,AUTO_EXTRACTED_TO_REVIEW
+202412270ORL,robinmi01,2024-12-27,Out,Injury,Left,Ankle,Post-surgery,,AUTO_EXTRACTED_TO_REVIEW
+202412300WAS,brunsja01,2024-12-30,Available,Injury,Right,Calf,Tightness,1,AUTO_EXTRACTED_TO_REVIEW
+202412300WAS,robinmi01,2024-12-30,Out,Injury,Left,Ankle,Post-surgery,,AUTO_EXTRACTED_TO_REVIEW
+202501130NYK,brunsja01,2025-01-13,Questionable,Injury,Right,Shoulder,Soreness,1,AUTO_EXTRACTED_TO_REVIEW
+202501130NYK,robinmi01,2025-01-13,Out,Injury,Left,Ankle,Post-surgery,,AUTO_EXTRACTED_TO_REVIEW
+202501150PHI,brunsja01,2025-01-15,Available,Injury,Right,Shoulder,Soreness,1,AUTO_EXTRACTED_TO_REVIEW
+202501150PHI,robinmi01,2025-01-15,Out,Injury,Left,Ankle,Post-surgery,,AUTO_EXTRACTED_TO_REVIEW
+202501150PHI,simsje01,2025-01-15,Available,Injury,,Back,Spasm,1,AUTO_EXTRACTED_TO_REVIEW
+202501150PHI,townska01,2025-01-15,Out,Injury,Right,Thumb,Sprain,,AUTO_EXTRACTED_TO_REVIEW
+202501210BRK,hartjo01,2025-01-21,Probable,Injury,,Neck,Compression,1,AUTO_EXTRACTED_TO_REVIEW
+202501210BRK,robinmi01,2025-01-21,Out,Injury,Left,Ankle,Post-surgery,,AUTO_EXTRACTED_TO_REVIEW
+202501210BRK,townska01,2025-01-21,Probable,Injury,Right,Thumb,Sprain,1,AUTO_EXTRACTED_TO_REVIEW
+202502110IND,anunoog01,2025-02-11,Questionable,Injury,Right,Foot,Sprain,0,AUTO_EXTRACTED_TO_REVIEW
+202502110IND,dadiepa01,2025-02-11,Out,Injury,Right,Toe,Other,,AUTO_EXTRACTED_TO_REVIEW
+202502230BOS,anunoog01,2025-02-23,Available,Injury,Right,Foot,Sprain,1,AUTO_EXTRACTED_TO_REVIEW
+202502230BOS,hartjo01,2025-02-23,Available,Injury,Right,Knee,Patellofemoral pain,1,AUTO_EXTRACTED_TO_REVIEW
+202502230BOS,robinmi01,2025-02-23,Out,Injury,Left,Ankle,Post-surgery,,AUTO_EXTRACTED_TO_REVIEW
+202503170NYK,brunsja01,2025-03-17,Out,Injury,Right,Ankle,Sprain,,AUTO_EXTRACTED_TO_REVIEW
+202503170NYK,hukpoar01,2025-03-17,Out,Injury,Left,Knee,Post-surgery,,AUTO_EXTRACTED_TO_REVIEW
+202503200CHO,brunsja01,2025-03-20,Out,Injury,Right,Ankle,Sprain,,AUTO_EXTRACTED_TO_REVIEW
+202503200CHO,hukpoar01,2025-03-20,Out,Injury,Left,Knee,Post-surgery,,AUTO_EXTRACTED_TO_REVIEW
+202503200CHO,mcbrimi01,2025-03-20,Available,Injury,Left,Groin,Contusion,1,AUTO_EXTRACTED_TO_REVIEW
+202504010NYK,brunsja01,2025-04-01,Out,Injury,Right,Ankle,Sprain,,AUTO_EXTRACTED_TO_REVIEW
+202504010NYK,hukpoar01,2025-04-01,Out,Injury,Left,Knee,Post-surgery,,AUTO_EXTRACTED_TO_REVIEW
+202504010NYK,mcbrimi01,2025-04-01,Out,Injury,Left,Groin,Strain,,AUTO_EXTRACTED_TO_REVIEW
+202504010NYK,payneca01,2025-04-01,Out,Injury,Right,Ankle,Sprain,,AUTO_EXTRACTED_TO_REVIEW
+202504020CLE,brunsja01,2025-04-02,Out,Injury,Right,Ankle,Sprain,,AUTO_EXTRACTED_TO_REVIEW
+202504050ATL,brunsja01,2025-04-05,Out,Injury,Right,Ankle,Sprain,0,AUTO_EXTRACTED_TO_REVIEW
+202504050ATL,hukpoar01,2025-04-05,Out,Injury,Left,Knee,Post-surgery,,AUTO_EXTRACTED_TO_REVIEW
+202504050ATL,mcbrimi01,2025-04-05,Out,Injury,Left,Groin,Strain,,AUTO_EXTRACTED_TO_REVIEW
+202504050ATL,payneca01,2025-04-05,Available,Injury,Right,Ankle,Sprain,1,AUTO_EXTRACTED_TO_REVIEW
+202504050ATL,robinmi01,2025-04-05,Out,Injury,Left,Ankle,Post-surgery,,AUTO_EXTRACTED_TO_REVIEW
+202504100DET,anunoog01,2025-04-10,Out,Injury,Right,Thumb,Sprain,,AUTO_EXTRACTED_TO_REVIEW
+202504100DET,hartjo01,2025-04-10,Out,Injury,Right,Knee,Patellofemoral pain,,AUTO_EXTRACTED_TO_REVIEW
+202504100DET,hukpoar01,2025-04-10,Out,Injury,Left,Knee,Post-surgery,,AUTO_EXTRACTED_TO_REVIEW
+202504100DET,robinmi01,2025-04-10,Out,Injury,Left,Ankle,Post-surgery,,AUTO_EXTRACTED_TO_REVIEW
+202504190NYK,hukpoar01,2025-04-19,Available,Injury,Left,Knee,Post-surgery,0,AUTO_EXTRACTED_TO_REVIEW
+202504270DET,robinmi01,2025-04-27,Available,Illness,,,Illness,1,AUTO_EXTRACTED_TO_REVIEW
+202504290NYK,shamela01,2025-04-29,Questionable,Illness,,,Illness,0,AUTO_EXTRACTED_TO_REVIEW
+202505010DET,tuckepj01,2025-05-01,Out,Injury,,Back,Spasm,,AUTO_EXTRACTED_TO_REVIEW
+202505160NYK,achiupr01,2025-05-16,Questionable,Injury,Right,Ankle,Sprain,1,AUTO_EXTRACTED_TO_REVIEW
+202505290NYK,townska01,2025-05-29,Questionable,Injury,Left,Knee,Contusion,1,AUTO_EXTRACTED_TO_REVIEW
+202601050DET,hartjo01,2026-01-05,Out,Injury,Right,Ankle,Sprain,,AUTO_EXTRACTED_TO_REVIEW
+202601050DET,shamela01,2026-01-05,Out,Injury,Right,Shoulder,Sprain,,AUTO_EXTRACTED_TO_REVIEW
+202601240PHI,townska01,2026-01-24,Available,Injury,,Back,Spasm,1,AUTO_EXTRACTED_TO_REVIEW
+202602030WAS,mcbrimi01,2026-02-03,Out,Injury,Left,Ankle,Load management,,AUTO_EXTRACTED_TO_REVIEW
+202602030WAS,robinmi01,2026-02-03,Out,Injury,Left,Ankle,Other,,AUTO_EXTRACTED_TO_REVIEW
+202602040NYK,diawamo01,2026-02-04,Available,Injury,Left,Ankle,Sprain,1,AUTO_EXTRACTED_TO_REVIEW
+202602040NYK,hartjo01,2026-02-04,Out,Injury,Left,Ankle,Sprain,,AUTO_EXTRACTED_TO_REVIEW
+202602040NYK,mcbrimi01,2026-02-04,Out,Injury,Left,Ankle,Load management,,AUTO_EXTRACTED_TO_REVIEW
+202602060DET,alvarjo01,2026-02-06,Out,Not with team,,,Personal reasons,,AUTO_EXTRACTED_TO_REVIEW
+202602060DET,anunoog01,2026-02-06,Questionable,Injury,Right,Toe,Soreness,0,AUTO_EXTRACTED_TO_REVIEW
+202602060DET,hartjo01,2026-02-06,Probable,Injury,Left,Ankle,Sprain,1,AUTO_EXTRACTED_TO_REVIEW
+202602100NYK,anunoog01,2026-02-10,Questionable,Injury,Right,Toe,Avulsion,,AUTO_EXTRACTED_TO_REVIEW
+202602100NYK,mcbrimi01,2026-02-10,Out,Injury,,Pelvis,Muscle injury,,AUTO_EXTRACTED_TO_REVIEW
+202603010NYK,mcbrimi01,2026-03-01,Out,Injury,,Pelvis,Post-surgery,,AUTO_EXTRACTED_TO_REVIEW
+202603040NYK,mcbrimi01,2026-03-04,Out,Injury,,Pelvis,Post-surgery,,AUTO_EXTRACTED_TO_REVIEW
+202603040NYK,robinmi01,2026-03-04,Out,Injury,Left,Ankle,Load management,,AUTO_EXTRACTED_TO_REVIEW
+202603080LAL,mcbrimi01,2026-03-08,Out,Injury,,Pelvis,Muscle injury,,AUTO_EXTRACTED_TO_REVIEW
+202604200NYK,anunoog01,2026-04-20,Probable,Injury,Left,Ankle,Sprain,1,AUTO_EXTRACTED_TO_REVIEW
+202604300ATL,hartjo01,2026-04-30,Available,Injury,,Back,Contusion,1,AUTO_EXTRACTED_TO_REVIEW
+202605040NYK,sochaje01,2026-05-04,Questionable,Injury,Left,Hamstring,Tightness,0,AUTO_EXTRACTED_TO_REVIEW
+202605060NYK,robinmi01,2026-05-06,Questionable,Illness,,,Illness,0,AUTO_EXTRACTED_TO_REVIEW
+202605080PHI,anunoog01,2026-05-08,Out,Injury,Right,Hamstring,Strain,,AUTO_EXTRACTED_TO_REVIEW
+202605080PHI,hartjo01,2026-05-08,Available,Injury,Left,Thumb,Sprain,1,AUTO_EXTRACTED_TO_REVIEW
+202605080PHI,robinmi01,2026-05-08,Available,Illness,,,Illness,1,AUTO_EXTRACTED_TO_REVIEW
+202605100PHI,anunoog01,2026-05-10,Out,Injury,Right,Hamstring,Strain,,AUTO_EXTRACTED_TO_REVIEW
+202605190NYK,anunoog01,2026-05-19,Probable,Injury,Right,Hamstring,Strain,1,AUTO_EXTRACTED_TO_REVIEW
+202606030SAS,robinmi01,2026-06-03,Questionable,Injury,Right,Hand,Fracture,1,AUTO_EXTRACTED_TO_REVIEW
+202606050SAS,robinmi01,2026-06-05,Probable,Injury,Right,Hand,Fracture,1,AUTO_EXTRACTED_TO_REVIEW
+202606080NYK,robinmi01,2026-06-08,Available,Injury,Right,Hand,Fracture,1,AUTO_EXTRACTED_TO_REVIEW
+202606100NYK,robinmi01,2026-06-10,Available,Injury,Right,Hand,Fracture,1,AUTO_EXTRACTED_TO_REVIEW
+202606130SAS,robinmi01,2026-06-13,Available,Injury,Right,Hand,Fracture,1,REVIEWED

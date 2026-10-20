@@ -1,0 +1,108 @@
+table fact_player_game
+	lineageTag: 79054065-0fc7-4c53-abae-3aea6030e4f4
+
+	column game_id
+		dataType: string
+		isHidden
+		lineageTag: 9f9c3813-6837-4aa2-81b6-225b28c74f1d
+		summarizeBy: none
+		sourceColumn: game_id
+
+		annotation SummarizationSetBy = User
+
+	column team_id
+		dataType: string
+		isHidden
+		lineageTag: c422e877-e1cb-462f-95d6-a4dfb2484a35
+		summarizeBy: none
+		sourceColumn: team_id
+
+		annotation SummarizationSetBy = User
+
+	column player_id
+		dataType: string
+		isHidden
+		lineageTag: 39611958-9ea1-43e4-9731-6f1084f41e05
+		summarizeBy: none
+		sourceColumn: player_id
+
+		annotation SummarizationSetBy = User
+
+	column did_not_play
+		dataType: int64
+		formatString: 0
+		lineageTag: c6e8f33c-aa3b-4f84-b5fb-b7a61bcc490f
+		summarizeBy: none
+		sourceColumn: did_not_play
+
+		annotation SummarizationSetBy = User
+
+	column absence_reason
+		dataType: string
+		lineageTag: 472b394e-51f4-4579-9fbf-a968e2c632f4
+		summarizeBy: none
+		sourceColumn: absence_reason
+
+		annotation SummarizationSetBy = User
+
+	column minutes
+		dataType: string
+		lineageTag: a46968a0-f147-4dfa-8050-a55a1cf60a7d
+		summarizeBy: none
+		sourceColumn: minutes
+
+		annotation SummarizationSetBy = User
+
+	column pts
+		dataType: int64
+		formatString: #,0
+		lineageTag: a1c0484a-cbbf-4160-834f-c5d9b10d3fea
+		summarizeBy: sum
+		sourceColumn: pts
+
+		annotation SummarizationSetBy = User
+
+	column plus_minus
+		dataType: double
+		formatString: 0.0
+		lineageTag: f79cbc1e-0c7a-4933-9387-cf6773bd0784
+		summarizeBy: none
+		sourceColumn: plus_minus
+
+		annotation SummarizationSetBy = User
+
+	column absence_type
+		dataType: string
+		lineageTag: 7f12c38b-edf9-4c43-b00e-a9b6a7fea26f
+		summarizeBy: none
+		sourceColumn: absence_type
+
+		annotation SummarizationSetBy = User
+
+	column minutes_num
+		dataType: double
+		formatString: 0.0
+		lineageTag: 46c01441-1dc3-4cc8-95a5-93a3df510cc8
+		summarizeBy: sum
+		sourceColumn: minutes_num
+
+		annotation SummarizationSetBy = User
+
+	partition fact_player_game = m
+		mode: import
+		queryGroup: Sports
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "fact_player_game.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    SelectedColumns = Table.SelectColumns(PromotedHeaders, {"game_id", "team_id", "player_id", "did_not_play", "absence_reason", "minutes", "pts", "plus_minus"}),
+				    ChangedTypes = Table.TransformColumnTypes(SelectedColumns, {{"game_id", type text}, {"team_id", type text}, {"player_id", type text}, {"did_not_play", Int64.Type}, {"absence_reason", type text}, {"minutes", type text}, {"pts", Int64.Type}, {"plus_minus", type number}}, "en-US"),
+				    AbsenceType = Table.AddColumn(ChangedTypes, "absence_type", each if [did_not_play] <> 1 then null else let r = if [absence_reason] = null then "" else [absence_reason] in if Text.Contains(r, "COACH") then "Coach decision" else if r = "ILLNESS" or r = "NON-COVID ILLNESS" then "Illness" else if r = "PERSONAL" or r = "NOT WITH TEAM" then "Personal" else if r = "SUSPENDED BY LEAGUE" then "Suspension" else if r = "Did Not Play" or r = "" then "No reason" else "Injury", type text),
+				    MinutesNumber = Table.AddColumn(AbsenceType, "minutes_num", each try Number.FromText([minutes], "en-US") otherwise null, type nullable number)
+				in
+				    MinutesNumber
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

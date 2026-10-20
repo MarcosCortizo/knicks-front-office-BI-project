@@ -1,0 +1,65 @@
+table fact_cap_rules
+	lineageTag: ac994331-3b0e-4cb6-8cb8-78d7dc22eb1e
+
+	column season_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 36a12e54-b9ab-4065-9fda-9f391fefe699
+		summarizeBy: none
+		sourceColumn: season_id
+
+		annotation SummarizationSetBy = User
+
+	column salary_cap_usd
+		dataType: int64
+		formatString: $#,0
+		lineageTag: 0e62a426-977e-462f-bdb8-6a0980f23b1c
+		summarizeBy: sum
+		sourceColumn: salary_cap_usd
+
+		annotation SummarizationSetBy = User
+
+	column tax_threshold_usd
+		dataType: int64
+		formatString: $#,0
+		lineageTag: 2a7768ba-49ab-481d-a585-cff23d2363a7
+		summarizeBy: sum
+		sourceColumn: tax_threshold_usd
+
+		annotation SummarizationSetBy = User
+
+	column first_apron_usd
+		dataType: int64
+		formatString: $#,0
+		lineageTag: a10825f3-d83d-41e0-9581-9c5d540d6053
+		summarizeBy: sum
+		sourceColumn: first_apron_usd
+
+		annotation SummarizationSetBy = User
+
+	column second_apron_usd
+		dataType: int64
+		formatString: $#,0
+		lineageTag: d52ba0aa-c606-40fc-9b62-b0fbe78388a8
+		summarizeBy: sum
+		sourceColumn: second_apron_usd
+
+		annotation SummarizationSetBy = User
+
+	partition fact_cap_rules = m
+		mode: import
+		queryGroup: Finance
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "fact_cap_rules.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    SelectedColumns = Table.SelectColumns(PromotedHeaders, {"season_id", "salary_cap_usd", "tax_threshold_usd", "first_apron_usd", "second_apron_usd"}),
+				    ChangedTypes = Table.TransformColumnTypes(SelectedColumns, {{"season_id", Int64.Type}, {"salary_cap_usd", Int64.Type}, {"tax_threshold_usd", Int64.Type}, {"first_apron_usd", Int64.Type}, {"second_apron_usd", Int64.Type}}, "en-US")
+				in
+				    ChangedTypes
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,106 @@
+table fact_playoff_series
+	lineageTag: 114f3050-0b4c-4f06-ad1f-f2e4a8b452c9
+
+	column season_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 9d1dec47-5a9f-404d-be30-38e43f462ec8
+		summarizeBy: none
+		sourceColumn: season_id
+
+		annotation SummarizationSetBy = User
+
+	column phase_id
+		dataType: string
+		isHidden
+		lineageTag: ed3e98c2-2c0f-483a-b5d4-ced5dcfdc65b
+		summarizeBy: none
+		sourceColumn: phase_id
+
+		annotation SummarizationSetBy = User
+
+	column round_num
+		dataType: int64
+		formatString: 0
+		lineageTag: 3aecafb0-eef2-4e4a-80d7-9e4a26f49c12
+		summarizeBy: none
+		sourceColumn: round_num
+
+		annotation SummarizationSetBy = User
+
+	column round_name
+		dataType: string
+		lineageTag: 3875c1e3-b0b5-42cf-9320-9c2c6f9f5072
+		summarizeBy: none
+		sourceColumn: round_name
+		sortByColumn: round_num
+
+		annotation SummarizationSetBy = User
+
+	column conference
+		dataType: string
+		lineageTag: ac5f0e57-66af-4aaf-93cc-d3997f3a26fe
+		summarizeBy: none
+		sourceColumn: conference
+
+		annotation SummarizationSetBy = User
+
+	column team_a_id
+		dataType: string
+		lineageTag: 413f9efc-58b2-4072-9bb7-2f4a52022db4
+		summarizeBy: none
+		sourceColumn: team_a_id
+
+		annotation SummarizationSetBy = User
+
+	column team_b_id
+		dataType: string
+		lineageTag: db89e88a-61cc-4c6c-b9ca-86cb3633361c
+		summarizeBy: none
+		sourceColumn: team_b_id
+
+		annotation SummarizationSetBy = User
+
+	column wins_a
+		dataType: int64
+		formatString: 0
+		lineageTag: 3874c3e2-782c-4490-acc1-ceb76a605064
+		summarizeBy: none
+		sourceColumn: wins_a
+
+		annotation SummarizationSetBy = User
+
+	column wins_b
+		dataType: int64
+		formatString: 0
+		lineageTag: 10451744-b8a9-4090-9b70-1f2dfc7f43d8
+		summarizeBy: none
+		sourceColumn: wins_b
+
+		annotation SummarizationSetBy = User
+
+	column winner_team_id
+		dataType: string
+		lineageTag: c618f6c7-9d78-4993-9c9d-57cce3d09037
+		summarizeBy: none
+		sourceColumn: winner_team_id
+
+		annotation SummarizationSetBy = User
+
+	partition fact_playoff_series = m
+		mode: import
+		queryGroup: Sports
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "fact_playoff_series.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    SelectedColumns = Table.SelectColumns(PromotedHeaders, {"season_id", "phase_id", "round_num", "round_name", "conference", "team_a_id", "team_b_id", "wins_a", "wins_b", "winner_team_id"}),
+				    ChangedTypes = Table.TransformColumnTypes(SelectedColumns, {{"season_id", Int64.Type}, {"phase_id", type text}, {"round_num", Int64.Type}, {"round_name", type text}, {"conference", type text}, {"team_a_id", type text}, {"team_b_id", type text}, {"wins_a", Int64.Type}, {"wins_b", Int64.Type}, {"winner_team_id", type text}}, "en-US")
+				in
+				    ChangedTypes
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

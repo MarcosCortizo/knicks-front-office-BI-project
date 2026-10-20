@@ -1,0 +1,63 @@
+table fact_commercial_agreement
+	lineageTag: 6a238114-ee22-4e48-aa38-c4aa40d112ca
+
+	column partner
+		dataType: string
+		lineageTag: ca2002c1-07de-4c65-a25f-e35f83cc5279
+		summarizeBy: none
+		sourceColumn: partner
+
+		annotation SummarizationSetBy = User
+
+	column category
+		dataType: string
+		lineageTag: 8d76af98-5ad9-49f6-8ec9-5a21f4e41971
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = User
+
+	column announced_date
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: 02faaa5c-3919-462c-aaa2-f3c1ee194c71
+		summarizeBy: none
+		sourceColumn: announced_date
+
+		annotation SummarizationSetBy = User
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column annual_amount_usd
+		dataType: string
+		lineageTag: bc534e0a-3ac9-4f02-bd47-ea63749572e8
+		summarizeBy: none
+		sourceColumn: annual_amount_usd
+
+		annotation SummarizationSetBy = User
+
+	column amount_status
+		dataType: string
+		lineageTag: 93090e14-ebdb-44ed-949f-aa98e10bc1a9
+		summarizeBy: none
+		sourceColumn: amount_status
+
+		annotation SummarizationSetBy = User
+
+	partition fact_commercial_agreement = m
+		mode: import
+		queryGroup: Finance
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "fact_commercial_agreement.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    SelectedColumns = Table.SelectColumns(PromotedHeaders, {"partner", "category", "announced_date", "annual_amount_usd", "amount_status"}),
+				    ChangedTypes = Table.TransformColumnTypes(SelectedColumns, {{"partner", type text}, {"category", type text}, {"announced_date", type date}, {"annual_amount_usd", type text}, {"amount_status", type text}}, "en-US")
+				in
+				    ChangedTypes
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

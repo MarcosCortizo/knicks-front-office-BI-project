@@ -1,0 +1,64 @@
+table dim_season
+	lineageTag: 1f74219f-9540-4b60-bf54-ab74314c61d2
+
+	column season_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 65525980-5c3b-49e8-a517-4b038f95a08b
+		summarizeBy: none
+		sourceColumn: season_id
+
+		annotation SummarizationSetBy = User
+
+	column season_label
+		dataType: string
+		lineageTag: 0fda7dd6-373c-499d-ad46-dc17e6d297bd
+		summarizeBy: none
+		sourceColumn: season_label
+		sortByColumn: season_id
+
+		annotation SummarizationSetBy = User
+
+	column retrospective_cutoff
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: a99a8ef8-bf35-4446-b161-0e191b648d17
+		summarizeBy: none
+		sourceColumn: retrospective_cutoff
+
+		annotation SummarizationSetBy = User
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column nba_champion_team_id
+		dataType: string
+		lineageTag: 3ffbc4da-5d38-4804-b513-69375ac650f7
+		summarizeBy: none
+		sourceColumn: nba_champion_team_id
+
+		annotation SummarizationSetBy = User
+
+	column cup_champion_team_id
+		dataType: string
+		lineageTag: 5f1ce90f-4721-44c6-a866-e1d4b807427e
+		summarizeBy: none
+		sourceColumn: cup_champion_team_id
+
+		annotation SummarizationSetBy = User
+
+	partition dim_season = m
+		mode: import
+		queryGroup: Dimensions
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "dim_season.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    SelectedColumns = Table.SelectColumns(PromotedHeaders, {"season_id", "season_label", "retrospective_cutoff", "nba_champion_team_id", "cup_champion_team_id"}),
+				    ChangedTypes = Table.TransformColumnTypes(SelectedColumns, {{"season_id", Int64.Type}, {"season_label", type text}, {"retrospective_cutoff", type date}, {"nba_champion_team_id", type text}, {"cup_champion_team_id", type text}}, "en-US")
+				in
+				    ChangedTypes
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

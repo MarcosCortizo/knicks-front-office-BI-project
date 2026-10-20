@@ -1,0 +1,40 @@
+table 'Absence Reason'
+	lineageTag: 61068019-d9dc-47de-a4ca-698de4d08ffd
+
+	column Reason
+		lineageTag: 8be1009d-99a9-4b74-a766-b2ecb9963637
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Reason]
+		sortByColumn: 'Reason Order'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Reason Order'
+		isHidden
+		formatString: 0
+		lineageTag: 54129973-1488-4d23-9308-1dc3d8d38bfc
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Reason Order]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Absence Reason' = calculated
+		mode: import
+		source =
+				
+				DATATABLE (
+				    "Reason", STRING,
+				    "Reason Order", INTEGER,
+				    {
+				        { "Injury", 1 },
+				        { "Illness", 2 },
+				        { "Coach decision", 3 },
+				        { "Personal", 4 },
+				        { "Suspension", 5 },
+				        { "No reason", 6 },
+				        { "Inactive", 7 }
+				    }
+				)
+

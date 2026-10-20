@@ -1,0 +1,60 @@
+table 'Profile Stats'
+	lineageTag: 9c047112-ad8e-46bf-bc43-456451bd8888
+
+	column Stat
+		lineageTag: db76a199-1e12-460a-87a1-2d2114383f8e
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Stat]
+		sortByColumn: 'Stat Order'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Stat Order'
+		isHidden
+		formatString: 0
+		lineageTag: 201cca5c-df64-4fce-b1dc-3175874c0928
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Stat Order]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Higher Is Better'
+		isHidden
+		formatString: 0
+		lineageTag: e605def4-c6ee-4257-ab8e-90d399d8bd5c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Higher Is Better]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Pct'
+		isHidden
+		formatString: 0
+		lineageTag: 24224e1d-5499-495b-98af-8ff911a008fd
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Is Pct]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Profile Stats' = calculated
+		mode: import
+		source =
+				
+				DATATABLE (
+				    "Stat", STRING,
+				    "Stat Order", INTEGER,
+				    "Higher Is Better", INTEGER,
+				    "Is Pct", INTEGER,
+				    {
+				        { "PER",  1, 1, 0 },
+				        { "TS%",  2, 1, 1 },
+				        { "USG%", 3, 0, 1 },
+				        { "WS",   4, 1, 0 },
+				        { "BPM",  5, 1, 0 }
+				    }
+				)
+

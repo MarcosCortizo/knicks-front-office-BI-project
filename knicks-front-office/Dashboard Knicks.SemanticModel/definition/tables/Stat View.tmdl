@@ -1,0 +1,34 @@
+table 'Stat View'
+	lineageTag: 5c2c4b85-8d0c-4332-812f-3135ecb7bd59
+
+	calculationGroup
+
+		calculationItem Total = SELECTEDMEASURE ()
+
+		calculationItem 'Per game' = IF ( ISSELECTEDMEASURE ( [Total PTS], [Total REB], [Total AST], [Total STL], [Total BLK], [Total TOV], [Total 3PM], [Plus Minus] ), DIVIDE ( SELECTEDMEASURE (), [Player Games] ), SELECTEDMEASURE () )
+
+			formatStringDefinition = SWITCH ( TRUE (), ISSELECTEDMEASURE ( [Plus Minus] ), "+0.0;-0.0;0.0", ISSELECTEDMEASURE ( [Total PTS], [Total REB], [Total AST], [Total STL], [Total BLK], [Total TOV], [Total 3PM], [Plus Minus] ), "0.0", SELECTEDMEASUREFORMATSTRING () )
+
+		calculationItem 'Per 36' = IF ( ISSELECTEDMEASURE ( [Total PTS], [Total REB], [Total AST], [Total STL], [Total BLK], [Total TOV], [Total 3PM], [Plus Minus] ), DIVIDE ( SELECTEDMEASURE (), [Player Minutes] ) * 36, SELECTEDMEASURE () )
+
+			formatStringDefinition = SWITCH ( TRUE (), ISSELECTEDMEASURE ( [Plus Minus] ), "+0.0;-0.0;0.0", ISSELECTEDMEASURE ( [Total PTS], [Total REB], [Total AST], [Total STL], [Total BLK], [Total TOV], [Total 3PM], [Plus Minus] ), "0.0", SELECTEDMEASUREFORMATSTRING () )
+
+	column View
+		dataType: string
+		lineageTag: 8c23a548-924f-4c80-9fec-6b398bee3b34
+		summarizeBy: none
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f575f5f8-d517-453e-8a49-b2031fb9c559
+		summarizeBy: sum
+		sourceColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+

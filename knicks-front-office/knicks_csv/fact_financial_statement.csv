@@ -1,0 +1,101 @@
+﻿fiscal_year,period_end,scope,statement,account_id,account_label,amount_usd,row_type
+2026,2026-06-30,MSG Sports group,income,revenue,Revenues,1153822000,line
+2025,2025-06-30,MSG Sports group,income,revenue,Revenues,1039220000,line
+2026,2026-06-30,MSG Sports group,income,direct_operating_expense,Direct operating expenses,833702000,line
+2025,2025-06-30,MSG Sports group,income,direct_operating_expense,Direct operating expenses,755118000,line
+2026,2026-06-30,MSG Sports group,income,sga,"Selling, general and administrative expenses",285995000,line
+2025,2025-06-30,MSG Sports group,income,sga,"Selling, general and administrative expenses",266076000,line
+2026,2026-06-30,MSG Sports group,income,depreciation,Depreciation and amortization,3179000,line
+2025,2025-06-30,MSG Sports group,income,depreciation,Depreciation and amortization,3218000,line
+2026,2026-06-30,MSG Sports group,income,restructuring,Restructuring charges,2078000,line
+2025,2025-06-30,MSG Sports group,income,restructuring,Restructuring charges,0,line
+2026,2026-06-30,MSG Sports group,income,operating_income,Operating income,28868000,subtotal
+2025,2025-06-30,MSG Sports group,income,operating_income,Operating income,14808000,subtotal
+2026,2026-06-30,MSG Sports group,income,interest_income,Interest income,2939000,line
+2025,2025-06-30,MSG Sports group,income,interest_income,Interest income,4034000,line
+2026,2026-06-30,MSG Sports group,income,interest_expense,Interest expense,-21085000,line
+2025,2025-06-30,MSG Sports group,income,interest_expense,Interest expense,-21652000,line
+2026,2026-06-30,MSG Sports group,income,misc_income,Miscellaneous income (expense),7261000,line
+2025,2025-06-30,MSG Sports group,income,misc_income,Miscellaneous income (expense),-14462000,line
+2026,2026-06-30,MSG Sports group,income,pretax,Income before income taxes,17983000,subtotal
+2025,2025-06-30,MSG Sports group,income,pretax,Income before income taxes,-17272000,subtotal
+2026,2026-06-30,MSG Sports group,income,tax_expense,Income tax expense,-10224000,line
+2025,2025-06-30,MSG Sports group,income,tax_expense,Income tax expense,-5166000,line
+2026,2026-06-30,MSG Sports group,income,net_income,Net income,7759000,total
+2025,2025-06-30,MSG Sports group,income,net_income,Net income,-22438000,total
+2026,2026-06-30,MSG Sports group,income,adjusted_operating_income,Adjusted operating income (non-GAAP),58726000,non_gaap
+2025,2025-06-30,MSG Sports group,income,adjusted_operating_income,Adjusted operating income (non-GAAP),38156000,non_gaap
+2026,2026-06-30,MSG Sports group,balance,cash,Cash and cash equivalents,164511000,line
+2025,2025-06-30,MSG Sports group,balance,cash,Cash and cash equivalents,144617000,line
+2026,2026-06-30,MSG Sports group,balance,restricted_cash,Restricted cash,0,line
+2025,2025-06-30,MSG Sports group,balance,restricted_cash,Restricted cash,8571000,line
+2026,2026-06-30,MSG Sports group,balance,receivables,Accounts receivable,52184000,line
+2025,2025-06-30,MSG Sports group,balance,receivables,Accounts receivable,25855000,line
+2026,2026-06-30,MSG Sports group,balance,related_receivables,Related party receivables,36103000,line
+2025,2025-06-30,MSG Sports group,balance,related_receivables,Related party receivables,3582000,line
+2026,2026-06-30,MSG Sports group,balance,prepaid,Prepaid expenses,43104000,line
+2025,2025-06-30,MSG Sports group,balance,prepaid,Prepaid expenses,43417000,line
+2026,2026-06-30,MSG Sports group,balance,other_current_assets,Other current assets,27388000,line
+2025,2025-06-30,MSG Sports group,balance,other_current_assets,Other current assets,25053000,line
+2026,2026-06-30,MSG Sports group,balance,current_assets,Total current assets,323290000,subtotal
+2025,2025-06-30,MSG Sports group,balance,current_assets,Total current assets,251095000,subtotal
+2026,2026-06-30,MSG Sports group,balance,ppe,"Property and equipment, net",27163000,line
+2025,2025-06-30,MSG Sports group,balance,ppe,"Property and equipment, net",28962000,line
+2026,2026-06-30,MSG Sports group,balance,rou_assets,Right-of-use lease assets,740576000,line
+2025,2025-06-30,MSG Sports group,balance,rou_assets,Right-of-use lease assets,760456000,line
+2026,2026-06-30,MSG Sports group,balance,intangibles,Intangible assets,103644000,line
+2025,2025-06-30,MSG Sports group,balance,intangibles,Intangible assets,103644000,line
+2026,2026-06-30,MSG Sports group,balance,goodwill,Goodwill,226523000,line
+2025,2025-06-30,MSG Sports group,balance,goodwill,Goodwill,226523000,line
+2026,2026-06-30,MSG Sports group,balance,investments,Investments,65618000,line
+2025,2025-06-30,MSG Sports group,balance,investments,Investments,54720000,line
+2026,2026-06-30,MSG Sports group,balance,deferred_tax_assets,Deferred tax assets,28773000,line
+2025,2025-06-30,MSG Sports group,balance,deferred_tax_assets,Deferred tax assets,34821000,line
+2026,2026-06-30,MSG Sports group,balance,other_assets,Other assets,22065000,line
+2025,2025-06-30,MSG Sports group,balance,other_assets,Other assets,12753000,line
+2026,2026-06-30,MSG Sports group,balance,total_assets,Total assets,1537652000,total
+2025,2025-06-30,MSG Sports group,balance,total_assets,Total assets,1472974000,total
+2026,2026-06-30,MSG Sports group,balance,ap,Accounts payable,18411000,line
+2025,2025-06-30,MSG Sports group,balance,ap,Accounts payable,9336000,line
+2026,2026-06-30,MSG Sports group,balance,related_payables,Related party payables,4964000,line
+2025,2025-06-30,MSG Sports group,balance,related_payables,Related party payables,4807000,line
+2026,2026-06-30,MSG Sports group,balance,current_debt,Current portion of debt,16500000,line
+2025,2025-06-30,MSG Sports group,balance,current_debt,Current portion of debt,24000000,line
+2026,2026-06-30,MSG Sports group,balance,employee_accrual,Accrued employee compensation,159940000,line
+2025,2025-06-30,MSG Sports group,balance,employee_accrual,Accrued employee compensation,98924000,line
+2026,2026-06-30,MSG Sports group,balance,league_accrual,League-related accruals,209926000,line
+2025,2025-06-30,MSG Sports group,balance,league_accrual,League-related accruals,196567000,line
+2026,2026-06-30,MSG Sports group,balance,other_accrued,Other accrued liabilities,9444000,line
+2025,2025-06-30,MSG Sports group,balance,other_accrued,Other accrued liabilities,13093000,line
+2026,2026-06-30,MSG Sports group,balance,current_lease,Current lease liabilities,57834000,line
+2025,2025-06-30,MSG Sports group,balance,current_lease,Current lease liabilities,52618000,line
+2026,2026-06-30,MSG Sports group,balance,deferred_revenue,"Deferred revenue, current",165416000,line
+2025,2025-06-30,MSG Sports group,balance,deferred_revenue,"Deferred revenue, current",164178000,line
+2026,2026-06-30,MSG Sports group,balance,current_liabilities,Total current liabilities,642435000,subtotal
+2025,2025-06-30,MSG Sports group,balance,current_liabilities,Total current liabilities,563523000,subtotal
+2026,2026-06-30,MSG Sports group,balance,long_debt,Long-term debt,242000000,line
+2025,2025-06-30,MSG Sports group,balance,long_debt,Long-term debt,267000000,line
+2026,2026-06-30,MSG Sports group,balance,long_lease,Long-term lease liabilities,843975000,line
+2025,2025-06-30,MSG Sports group,balance,long_lease,Long-term lease liabilities,841050000,line
+2026,2026-06-30,MSG Sports group,balance,other_employee,"Other employee-related liabilities, non-current",71984000,line
+2025,2025-06-30,MSG Sports group,balance,other_employee,"Other employee-related liabilities, non-current",82178000,line
+2026,2026-06-30,MSG Sports group,balance,long_deferred_revenue,"Deferred revenue, non-current",554000,line
+2025,2025-06-30,MSG Sports group,balance,long_deferred_revenue,"Deferred revenue, non-current",662000,line
+2026,2026-06-30,MSG Sports group,balance,total_liabilities,Total liabilities,1800948000,total
+2025,2025-06-30,MSG Sports group,balance,total_liabilities,Total liabilities,1754413000,total
+2026,2026-06-30,MSG Sports group,balance,equity,Stockholders' equity (deficit),-263296000,total
+2025,2025-06-30,MSG Sports group,balance,equity,Stockholders' equity (deficit),-281439000,total
+2026,2026-06-30,MSG Sports group,balance,liabilities_equity,Total liabilities and stockholders' equity,1537652000,total
+2025,2025-06-30,MSG Sports group,balance,liabilities_equity,Total liabilities and stockholders' equity,1472974000,total
+2026,2026-06-30,MSG Sports group,cashflow,operating_cashflow,Net cash from operating activities,62663000,subtotal
+2025,2025-06-30,MSG Sports group,cashflow,operating_cashflow,Net cash from operating activities,91607000,subtotal
+2026,2026-06-30,MSG Sports group,cashflow,investing_cashflow,Net cash from investing activities,-2206000,subtotal
+2025,2025-06-30,MSG Sports group,cashflow,investing_cashflow,Net cash from investing activities,-6920000,subtotal
+2026,2026-06-30,MSG Sports group,cashflow,financing_cashflow,Net cash from financing activities,-49134000,subtotal
+2025,2025-06-30,MSG Sports group,cashflow,financing_cashflow,Net cash from financing activities,-26406000,subtotal
+2026,2026-06-30,MSG Sports group,cashflow,net_cash_change,Net change in cash,11323000,total
+2025,2025-06-30,MSG Sports group,cashflow,net_cash_change,Net change in cash,58281000,total
+2026,2026-06-30,MSG Sports group,cashflow,cash_begin,Cash at beginning of period (incl. restricted),153188000,balance
+2025,2025-06-30,MSG Sports group,cashflow,cash_begin,Cash at beginning of period (incl. restricted),94907000,balance
+2026,2026-06-30,MSG Sports group,cashflow,cash_end,Cash at end of period (incl. restricted),164511000,balance
+2025,2025-06-30,MSG Sports group,cashflow,cash_end,Cash at end of period (incl. restricted),153188000,balance

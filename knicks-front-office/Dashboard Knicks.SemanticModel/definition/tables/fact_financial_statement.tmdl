@@ -1,0 +1,79 @@
+table fact_financial_statement
+	lineageTag: cb30d339-9ef1-430b-bc56-9a720371dfd4
+
+	column fiscal_year
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3c18a663-0660-4f60-9f7c-e004eb34a274
+		summarizeBy: none
+		sourceColumn: fiscal_year
+
+		annotation SummarizationSetBy = User
+
+	column statement
+		dataType: string
+		isHidden
+		lineageTag: 8a833c5b-c7cd-4f41-9347-01e0780f3898
+		summarizeBy: none
+		sourceColumn: statement
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column account_id
+		dataType: string
+		isHidden
+		lineageTag: 1a3fcf5b-c30e-46b2-86cc-09bbd2bf40d2
+		summarizeBy: none
+		sourceColumn: account_id
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column account_label
+		dataType: string
+		isHidden
+		lineageTag: cacb9355-8809-4e6c-a621-a1bc731d9f46
+		summarizeBy: none
+		sourceColumn: account_label
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column amount_usd
+		dataType: int64
+		formatString: $#,0
+		lineageTag: ff55cf46-8e29-4b88-b136-3a31c03b12cc
+		summarizeBy: sum
+		sourceColumn: amount_usd
+
+		annotation SummarizationSetBy = User
+
+	column row_type
+		dataType: string
+		lineageTag: c4eaa954-ed33-4e14-b746-a86a3db9176d
+		summarizeBy: none
+		sourceColumn: row_type
+
+		annotation SummarizationSetBy = User
+
+	partition fact_financial_statement = m
+		mode: import
+		queryGroup: Finance
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "fact_financial_statement.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    SelectedColumns = Table.SelectColumns(PromotedHeaders, {"fiscal_year", "statement", "account_id", "account_label", "amount_usd", "row_type"}),
+				    ChangedTypes = Table.TransformColumnTypes(SelectedColumns, {{"fiscal_year", Int64.Type}, {"statement", type text}, {"account_id", type text}, {"account_label", type text}, {"amount_usd", Int64.Type}, {"row_type", type text}}, "en-US")
+				in
+				    ChangedTypes
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

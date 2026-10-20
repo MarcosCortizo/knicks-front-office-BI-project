@@ -1,0 +1,83 @@
+table 'Trade Packages'
+	lineageTag: f9c5855c-dc16-4bc8-a3b1-cc5e8d79ac34
+
+	column season_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: dea8d72a-4ed7-4c35-ba7e-b3101cb8ac80
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [season_id]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trade Date'
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 69531934-6222-4fa6-9cec-1b2597328ea1
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Trade Date]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Partner
+		dataType: string
+		lineageTag: 45599cfd-a600-4ae4-bb23-b1e4c6ff24c8
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Partner]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Knicks Send'
+		dataType: string
+		lineageTag: 9731cddc-440b-431f-b2b4-311705f3e466
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Knicks Send]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Knicks Receive'
+		dataType: string
+		lineageTag: 1ccc5625-cd4e-4d99-ac26-a3f317417a36
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Knicks Receive]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trade Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: e887a5e5-27c2-4121-b6b3-73e3d57967a5
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Trade Order]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Trade Packages' = calculated
+		mode: import
+		source =
+				
+				DATATABLE (
+				    "season_id", INTEGER, "Trade Date", DATETIME, "Partner", STRING, "Knicks Send", STRING, "Knicks Receive", STRING, "Trade Order", INTEGER,
+				    {
+				        { 2025, "2024-06-26", "Washington Wizards", "Kyshawn George", "Dillon Jones, 2024 2nd rd pick", 1 },
+				        { 2025, "2024-06-26", "Oklahoma City Thunder", "Dillon Jones", "Five 2nd rd picks", 2 },
+				        { 2025, "2024-06-27", "Oklahoma City Thunder", "Ajay Mitchell", "Oso Ighodaro, cash", 3 },
+				        { 2025, "2024-06-27", "Dallas Mavericks", "Melvin Ajinca", "Ariel Hukporti, Petteri Koponen, cash", 4 },
+				        { 2025, "2024-06-27", "Phoenix Suns", "Oso Ighodaro", "Kevin McCullar Jr., 2028 2nd rd pick", 5 },
+				        { 2025, "2024-06-27", "Portland Trail Blazers", "Daniel Diez, three 2nd rd picks", "Tyler Kolek", 6 },
+				        { 2025, "2024-07-06", "Brooklyn Nets", "Bojan Bogdanovic, Mamadi Diakite, Shake Milton, five 1st rd picks, a 2nd rd pick, 2028 pick swap", "Mikal Bridges, Keita Bates-Diop, Juan Pablo Vaulet, 2026 2nd rd pick", 7 },
+				        { 2025, "2024-10-02", "Minnesota Timberwolves and Charlotte Hornets", "Julius Randle, Donte DiVincenzo, Keita Bates-Diop, Charlie Brown Jr., DaQuan Jeffries, Duane Washington Jr., 2025 1st rd pick, two 2nd rd picks", "Karl-Anthony Towns, James Nnaji", 8 },
+				        { 2025, "2025-02-06", "Washington Wizards and Milwaukee Bucks", "Mathias Lessort, Jericho Sims", "Delon Wright, Hugo Besson, cash", 9 },
+				        { 2026, "2026-02-05", "Chicago Bulls", "Guerschon Yabusele, cash", "Dalen Terry", 10 },
+				        { 2026, "2026-02-05", "New Orleans Pelicans", "Dalen Terry, two 2nd rd picks, cash", "Jose Alvarado, Latavious Williams", 11 }
+				    }
+				)
+

@@ -1,5 +1,8 @@
 # Knicks Front Office
 
+**VIDEO DEMO:** [Watch the Power BI dashboard walkthrough](VIDEO-DEMO-knicks-front-office-powerbi-walkthrough-2025-26.mp4)
+
+
 Power BI report on the New York Knicks 2025/26 season (the title year), with 2024/25 for comparison. I built it as a portfolio project to practise data modelling, DAX and report design with a dataset I collected myself.
 
 The report has two parts:
